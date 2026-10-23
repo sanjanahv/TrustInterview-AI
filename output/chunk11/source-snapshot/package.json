@@ -1,0 +1,12 @@
+{
+  "name": "trustinterview-research-controls",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Isolated, dependency-free research reference service; not integrated with the legacy UI",
+  "engines": { "node": ">=22.20.0" },
+  "scripts": {
+    "start": "node server.cjs",
+    "test": "node --test test/*.test.cjs",
+    "evaluate": "node evaluate.cjs"
+  }
+}

@@ -1,0 +1,51 @@
+{
+  "review_date": "2026-10-10",
+  "repositories": {
+    "INTERVIEW_BOT": {
+      "commit": "e9bd67652408197cdc58b07d3e12c85ece212371",
+      "tracked_files": 57
+    },
+    "TrustInterview_AI": {
+      "commit": "bde47e9c9863eb47acd57b025ecc75b9c3a72aed",
+      "tracked_files": 80
+    }
+  },
+  "validation": {
+    "backend_syntax": {
+      "files": 43,
+      "result": "pass"
+    },
+    "frontend_parsing": {
+      "files": 32,
+      "result": "pass"
+    },
+    "frontend_build": {
+      "repository": "TrustInterview-AI",
+      "result": "pass_with_warnings",
+      "warnings": [
+        "React hook dependencies and ref cleanup",
+        "new Function",
+        "unused variables"
+      ]
+    },
+    "frontend_tests": {
+      "repository": "TrustInterview-AI",
+      "result": "failed_before_tests",
+      "suites_failed": 1,
+      "tests_run": 0,
+      "error": "Cannot find module 'react-router/dom' from 'node_modules/react-router-dom/dist/index.js'"
+    },
+    "local_probes": {
+      "observations": 53,
+      "method": "Source execution in Node VM with mocked external services, routers, persistence and clocks as applicable; selected counterexamples, not accuracy benchmark"
+    },
+    "runtime": "Node v22.20.0"
+  },
+  "boundaries": [
+    "No live model, OAuth, Judge0, full backend HTTP or load tests",
+    "No penetration test against deployed service",
+    "No exhaustive dependency vulnerability or historical secret audit",
+    "Research experiments and reported latency could not be reproduced: datasets, scripts and raw results absent from reviewed snapshots",
+    "Tracked repository source and research PDFs were not modified"
+  ]
+}

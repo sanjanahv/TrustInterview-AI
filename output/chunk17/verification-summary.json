@@ -1,0 +1,41 @@
+{
+  "recordedAt": "2026-10-11T04:04:36.950Z",
+  "node": "v22.20.0",
+  "googleAuthLibrary": "11.2.0",
+  "exitCode": 0,
+  "tests": 69,
+  "passed": 69,
+  "failed": 0,
+  "liveGoogleLogins": 0,
+  "liveModelCalls": 0,
+  "providerTestMethod": "Local RSA assertions verified by installed SDK; code exchange and key retrieval fixtures",
+  "sources": {
+    "model-provider.cjs": "98192aec4d852fc2887caee13f94b02a05c5f661273befa8cefbea3e915bf881",
+    "model-config.example.json": "d19aff9ec99de65afe9479452aca2f84544641a1770f648e0182a67ee34e7934",
+    "evaluation/run-experiment.cjs": "68b35d13bde9b2192dae0230f0e68360b1c28832e5f1847ce625b2cbe51c2d6e",
+    "claim-grounding.cjs": "e57fb4a6d9479232f9b243194d68ac050186bbf353a16128c5fb8e5f121d6879",
+    "core.cjs": "15b5bea78e774cc46b9fa0cbdbdb98ca2bce842b6e0a0adf0da61e3c95e96a09",
+    "server.cjs": "ffb49636d6ef215dc5a19e25d65b04a1755a17ff6cf060407bf4a84d128e8e17",
+    "assessment-store.cjs": "1afb2fac46270ef6d10ee0f003c75f7cc8b1860b30835c7a630c990778272f16",
+    "google-identity.cjs": "bada5911937da8401b1fa9eb0a21e4bb3e12df302449cfdc8930503b32ea24b9",
+    "package.json": "21bcc132a378a766207cad5c6560fe4f3d8f4cd25de419d4f5c7db438c2a0784",
+    "package-lock.json": "4989350402d0a515651a2e4f4007fb257834c693c1b1359eebc690a35b6d3f90",
+    "google-config.example.json": "16ed0f24032613bb86fff9476239318cc13d354a0ff38950531045ca8794961e",
+    "README.md": "bc3cfbe85cbe65d87eee0c5d4da12b13de1456e8cdded5bf46faac28ee9b772c",
+    "test/controls.test.cjs": "4dab5ab73370ac64ef6ddb32cf1d9b75d297a61017f408747cd1ecb9f57eb44b",
+    "test/persistence.test.cjs": "452d3d8df01f1b28b685ee4ce7eccb2b19e4a6f50a992d71671285f6c9488931",
+    "test/http-persistence.test.cjs": "b6ba9c1607bc5771395e08aa3598477f4a301842b7ede9e3f1d78e307c78ce32",
+    "test/google-identity.test.cjs": "b44692cdc7e746f78750dc428657ab80207181df5150d7f82371d91405546282",
+    "test/resume.test.cjs": "853ebfb3fe54ce75bed288cb8302e6dbe65dead4b16e480ffb2660677190505b",
+    "test/claim-grounding.test.cjs": "45e3b91082ea1d25a4008b25aea2343d607913b3c0612acdbd2b67e44aaba4ed",
+    "test/model-provider.test.cjs": "101fa15110dcc4c9a826f359291414e8cc040c3a2509e49f8637943a4e0aaa74",
+    "test/experiment.test.cjs": "4622684a6d729a1028274c83eb98239ef03b3e66beb8cb2de5d4c33c3c759153",
+    "test/fixtures/crash.cjs": "51de96e372c70f78bfc3499d40a9a3df5ae67f2f89e8837e0cc7d0a41aa92fc9"
+  },
+  "frontendSources": {
+    "App.js": "b2748ebee46dddd7505d1bb2f6242c7addf8bab42007b6c12a46e7de39ba5f10",
+    "App.test.js": "55a84a3527af6a588bfe33ddce77e466033c2cae535cc4f899c0302fefd446c9",
+    "pages/ResearchInterview.js": "e63d868404040e66e3495374b7f5f3967ebd8765026589a3d80f30caa285ac41",
+    "pages/ResearchInterview.css": "516d6388d5292ab385c5e2329f2e82758d8790385ee5b20f072c54d68ab05387"
+  }
+}

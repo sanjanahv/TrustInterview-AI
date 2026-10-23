@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<testsuites>
+	<testcase name="explicit agreement and negation produce distinct source-relative labels" time="0.004781" classname="test"/>
+	<testcase name="bounded aliases preserve punctuation and avoid substring technology collisions" time="0.001253" classname="test"/>
+	<testcase name="missing and omitted evidence never mean contradicted or verified" time="0.000518" classname="test"/>
+	<testcase name="conflicting source statements remain undetermined independent of order" time="0.000374" classname="test"/>
+	<testcase name="conditions, reported speech, added instructions and unsupported technologies cannot establish support" time="0.000670" classname="test"/>
+	<testcase name="claim evidence preserves exact source quotes and stable claim identifiers" time="0.000418" classname="test"/>
+	<testcase name="unknown claims abstain and reviewers cannot override missing grounding" time="0.008925" classname="test"/>
+	<testcase name="source contradiction holds output for authorized review while agreement releases" time="0.007182" classname="test"/>
+	<testcase name="unprovisioned identities and weak/default credentials are rejected" time="0.006113" classname="test"/>
+	<testcase name="opaque sessions expire and are revoked server-side" time="0.002243" classname="test"/>
+	<testcase name="login rate limit applies even with invalid credentials" time="0.013197" classname="test"/>
+	<testcase name="tenant, ownership, and role enforced independently" time="0.003670" classname="test"/>
+	<testcase name="client scores, roles, and additional answer fields cannot change server scoring" time="0.005142" classname="test"/>
+	<testcase name="concurrent submissions cannot overwrite authoritative assessment" time="0.002346" classname="test"/>
+	<testcase name="fabricated evidence or extra model score fails closed" time="0.003415" classname="test"/>
+	<testcase name="sensitive output held until an authorized reviewer records a reason" time="0.002216" classname="test"/>
+	<testcase name="review cannot override unsupported grounding and rejection withholds scores" time="0.003808" classname="test"/>
+	<testcase name="provider failure and timeout abstain without publishing zero scores" time="0.022393" classname="test"/>
+	<testcase name="revocation during provider execution prevents release" time="0.001747" classname="test"/>
+	<testcase name="cache contexts separate candidates and sessions; logout removes entries" time="0.002815" classname="test"/>
+	<testcase name="hash chain detects altered events; audit excludes credentials and answers" time="0.001349" classname="test"/>
+	<testcase name="bias trigger uses word boundaries and remains a review heuristic" time="0.000407" classname="test"/>
+	<testcase name="indirect prompt instruction cannot alter the server-owned score" time="0.001030" classname="test"/>
+	<testcase name="audit storage failure prevents release of a scored response" time="0.003231" classname="test"/>
+	<testcase name="HTTP exact routes, authorization, and schema denial are enforced" time="0.326440" classname="test"/>
+	<testcase name="integrated API holds output, isolates reviewers, and releases only after authorized review" time="0.065637" classname="test"/>
+	<testcase name="offline runner retains one record per planned case, raw hashes, missing source and explicit offline mode" time="0.493679" classname="test"/>
+	<testcase name="provider failures remain in runner records with withheld scores and diagnostic artifacts" time="0.148624" classname="test"/>
+	<testcase name="runner rejects duplicate cases and invalid budgets; shuffled plan is deterministic" time="0.006116" classname="test"/>
+	<testcase name="SDK-verified identity gets only its server-assigned role, with PKCE and no token URL" time="0.016345" classname="test"/>
+	<testcase name="actual invalid RSA signature is rejected by the installed Google SDK" time="0.004694" classname="test"/>
+	<testcase name="wrong issuer, audience, nonce, authorized party, or unverified email denies identity" time="0.015889" classname="test"/>
+	<testcase name="unsupported signing algorithms and attacker-directed key URLs are rejected" time="0.004621" classname="test"/>
+	<testcase name="expired and not-yet-issued identity assertions are rejected" time="0.010264" classname="test"/>
+	<testcase name="missing or wrong browser binding cannot complete someone else's state" time="0.000782" classname="test"/>
+	<testcase name="transaction expires and duplicate callback parameters are rejected" time="0.000735" classname="test"/>
+	<testcase name="callback and handoff each permit one use only" time="0.001816" classname="test"/>
+	<testcase name="verified but unassigned Google subjects do not get an application session" time="0.002721" classname="test"/>
+	<testcase name="handoff checks exact Origin and expires independently of provider tokens" time="0.003023" classname="test"/>
+	<testcase name="provider errors and timeout do not fall back to demo sessions" time="0.031337" classname="test"/>
+	<testcase name="provider expiry caps the application session at handoff" time="0.002997" classname="test"/>
+	<testcase name="identity configuration pins the callback origin and rejects ambiguous bindings" time="0.000837" classname="test"/>
+	<testcase name="identity start attempts are bounded" time="0.001612" classname="test"/>
+	<testcase name="HTTP Google mode disables demo login and redeems verified browser-bound identity" time="0.168894" classname="test"/>
+	<testcase name="HTTP assessment remains available after restart and old bearer tokens are invalid" time="0.610493" classname="test"/>
+	<testcase name="provider fixes endpoint, keeps secret out of URL/artifacts, limits transmitted fields and records metadata" time="0.056319" classname="test"/>
+	<testcase name="provider rejects unsafe configuration and unexpected principal fields before fetching" time="0.002314" classname="test"/>
+	<testcase name="HTTP errors are sanitized and never retried or replaced by offline success" time="0.001605" classname="test"/>
+	<testcase name="malformed, blocked, truncated and oversized responses fail closed" time="0.005309" classname="test"/>
+	<testcase name="timeout and upstream cancellation abort the request" time="0.104550" classname="test"/>
+	<testcase name="grounding quote contract rejects missing, fabricated and invalid labels without asserting entailment" time="0.002914" classname="test"/>
+	<testcase name="model output cannot bypass the service schema or release a fabricated score" time="0.008235" classname="test"/>
+	<testcase name="secret echoes are discarded before any successful artifact is returned" time="0.001906" classname="test"/>
+	<testcase name="pending evidence and approved review survive reopen while sessions do not" time="0.385274" classname="test"/>
+	<testcase name="create and its audit event roll back together on audit failure" time="0.147794" classname="test"/>
+	<testcase name="failed review cannot durably release a score or record a partial decision" time="0.178105" classname="test"/>
+	<testcase name="stale versions cannot overwrite a committed assessment or append an audit event" time="0.100968" classname="test"/>
+	<testcase name="exclusive ownership prevents a second instance from recovering active work" time="1.001447" classname="test"/>
+	<testcase name="abrupt process exit rolls back a fake release and abstains interrupted evaluation" time="1.330721" classname="test"/>
+	<testcase name="persisted owner and tenant bindings still deny unrelated identities" time="0.135945" classname="test"/>
+	<testcase name="retained audit corruption fails closed at reopen" time="0.086163" classname="test"/>
+	<testcase name="resume attachment enforces tenant, ownership and candidate role" time="0.006773" classname="test"/>
+	<testcase name="resume rejects extra trust fields, empty, oversized, binary and malformed Unicode content" time="0.001451" classname="test"/>
+	<testcase name="resume is immutable, hash bound and source-supported quotations release without verifying qualifications" time="0.006266" classname="test"/>
+	<testcase name="absent resume and fabricated quotations abstain; source statements are not independently verified" time="0.000770" classname="test"/>
+	<testcase name="sensitive and instruction-like resume quotations are held for review" time="0.003468" classname="test"/>
+	<testcase name="provider cannot mutate persisted resume evidence" time="0.001009" classname="test"/>
+	<testcase name="SQLite restart preserves resume provenance and enforces content hash before evaluation" time="0.388050" classname="test"/>
+	<testcase name="HTTP resume route rejects anonymous access and binds authenticated text to assessment" time="0.148795" classname="test"/>
+	<!-- tests 69 -->
+	<!-- suites 0 -->
+	<!-- pass 69 -->
+	<!-- fail 0 -->
+	<!-- cancelled 0 -->
+	<!-- skipped 0 -->
+	<!-- todo 0 -->
+	<!-- duration_ms 3749.3647 -->
+</testsuites>

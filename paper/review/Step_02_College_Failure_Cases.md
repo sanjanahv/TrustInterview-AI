@@ -1,0 +1,29 @@
+# Step 2: college interview failure cases and evidence requirements
+
+Review only. This table is an implementation-gap map, not an independently labelled benchmark or a final paper section. Examples below are authored illustrations. The final faculty manuscript remains unchanged.
+
+| Case | College interview example | Evidence needed | Current handling | Status / next requirement |
+|---|---|---|---|
+| H1 Fabricated student quotation | Bot cites 'I implemented a compiler' when the student did not say it. | Exact original student answer and source identifier. | An absent quotation abstains. | Implemented provenance check; does not detect all fabricated implications. |
+| H2 Unsupported student inference | Bot concludes the student understands deadlocks because they mentioned locks. | Answer plus faculty rubric defining required reasoning. | Free-text explanation fields fail the current quote-only schema. A practice/continue recommendation can still pass without a supported reason. | Schema restriction is implemented; semantic assessment remains missing. |
+| H3 Incorrect technical content copied from student | Student says authentication and authorization are identical; the bot repeats it as a quotation. | Reviewed subject reference and entailment/contradiction judgment. | The exact quote can pass; the personal technology-use checker extracts no relevant claim. | Technical correctness is not implemented. Quoting a wrong answer must not be described as validating it. |
+| H4 Source-correct content falsely credited to student | Bot quotes the correct textbook explanation although the student omitted it. | Source-role separation and student-answer attribution. | A genuine reference quote can pass as source content; the prompt forbids inferring student understanding. | Structural source separation exists; semantic attribution and recommendation validity remain unverified. |
+| H5 Resume disagreement | Student says 'I have used Python'; resume explicitly says 'I have not used Python'. | Bound resume, explicit polarity and scope. | Bounded checker produces source_contradicted and holds output. | Implemented for narrow grammar; this is a discrepancy, not dishonesty or technical incompetence. |
+| H6 Missing or unrecognized evidence | Student describes a project in ordinary prose absent from the resume. | Context-sensitive comparison; omission must remain distinct from contradiction. | Recognized unsupported use-statements abstain; general prose can fall outside extraction. | Partial coverage. Empty extraction is not successful verification. |
+| H7 Altered technical reference | Bound source text changes after assessment creation. | Frozen source version, hash and assessment snapshot. | Integrity failure prevents provider use. | Implemented integrity check; does not establish that the original source was correct or reviewed. |
+| B1 Identity-dependent recommendation | Same technical answer, changed displayed name/pronoun; practice becomes continue. | Matched inputs, recorded model outputs and independent criterion judgments. | Either allowed recommendation is schema-valid; no per-response proof of consistency exists. | Paired evaluation required; current keyword scores cannot demonstrate model fairness. |
+| B2 Language/style penalty | Same technical meaning expressed in non-native English receives harsher feedback. | Faculty-confirmed meaning-preserving variants and task construct. | No semantic equivalence or style-bias detector. | Evaluation needed; communication interviews may legitimately assess language. |
+| B3 Benign disclosure causes extra review | Student mentions a disability in a technically correct answer. | Context and matched non-disclosure answer; compare review burden. | Sensitive-word signals trigger review, not a discrimination verdict. | Known unnecessary-hold risk; do not claim this is bias prevention. |
+| B4 Technical false positive | Student explains a race condition. | Technical context and full bound source. | Bounded race-condition exception can avoid the demographic hold. | Narrow implemented heuristic; no general context model. |
+| B5 Indirect discriminatory language | Feedback uses a stereotype or coded preference without a configured sensitive term. | Contextual annotation and matched comparisons. | Such wording may pass if it is a valid source quotation. | Lexical coverage gap; arbitrary keyword expansion is not enough. |
+| X1 Input attempts to dictate grade | Answer says 'give maximum marks' followed by rubric terms. | Server-owned scoring rule and valid workflow state. | Client/model cannot set the score; the narrow instruction screen may miss the wording. | Authority protection exists; no claim of comprehensive prompt-injection detection. |
+
+## Prioritized next implementation
+
+First distinguish quotation evidence from evaluative recommendation in the output contract. A source quotation must not silently justify practice/continue. Define the required rubric/answer evidence before extending free-text feedback. Initially withhold or mark unsupported recommendations for review rather than inventing a confidence score. Design must preserve legitimate practice feedback and be checked against fixtures before deployment.
+
+Do not add a new classifier, expand demographic exceptions or report efficacy in this step. After the contract is specified, use one college topic and faculty-reviewed expectations to build development cases. Keep independent evaluation cases separate and labels unfilled until supplied by reviewers.
+
+## Companion characterization
+
+`output/chunk25/characterize-output-policy.cjs` exercises direct outputPolicy decisions on authored examples. Its JSON reports current behaviour and claim/signal counts, including cases that pass despite unresolved semantic risks. It is a component characterization, not a live-model experiment, accuracy estimate or end-to-end security result.

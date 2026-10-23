@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<testsuites>
+	<testcase name="unprovisioned identities and weak/default credentials are rejected" time="0.006517" classname="test"/>
+	<testcase name="opaque sessions expire and are revoked server-side" time="0.003515" classname="test"/>
+	<testcase name="login rate limit applies even with invalid credentials" time="0.003195" classname="test"/>
+	<testcase name="tenant, ownership, and role enforced independently" time="0.001629" classname="test"/>
+	<testcase name="client scores, roles, and additional answer fields cannot change server scoring" time="0.002818" classname="test"/>
+	<testcase name="concurrent submissions cannot overwrite authoritative assessment" time="0.001745" classname="test"/>
+	<testcase name="fabricated evidence or extra model score fails closed" time="0.003501" classname="test"/>
+	<testcase name="sensitive output held until an authorized reviewer records a reason" time="0.002401" classname="test"/>
+	<testcase name="review cannot override unsupported grounding and rejection withholds scores" time="0.003278" classname="test"/>
+	<testcase name="provider failure and timeout abstain without publishing zero scores" time="0.017766" classname="test"/>
+	<testcase name="revocation during provider execution prevents release" time="0.001501" classname="test"/>
+	<testcase name="cache contexts separate candidates and sessions; logout removes entries" time="0.001670" classname="test"/>
+	<testcase name="hash chain detects altered events; audit excludes credentials and answers" time="0.001076" classname="test"/>
+	<testcase name="bias trigger uses word boundaries and remains a review heuristic" time="0.000276" classname="test"/>
+	<testcase name="indirect prompt instruction cannot alter the server-owned score" time="0.000846" classname="test"/>
+	<testcase name="audit storage failure prevents release of a scored response" time="0.000778" classname="test"/>
+	<testcase name="HTTP exact routes, authorization, and schema denial are enforced" time="0.207508" classname="test"/>
+	<testcase name="integrated API holds output, isolates reviewers, and releases only after authorized review" time="0.101356" classname="test"/>
+	<testcase name="SDK-verified identity gets only its server-assigned role, with PKCE and no token URL" time="0.014175" classname="test"/>
+	<testcase name="actual invalid RSA signature is rejected by the installed Google SDK" time="0.005117" classname="test"/>
+	<testcase name="wrong issuer, audience, nonce, authorized party, or unverified email denies identity" time="0.008412" classname="test"/>
+	<testcase name="unsupported signing algorithms and attacker-directed key URLs are rejected" time="0.003490" classname="test"/>
+	<testcase name="expired and not-yet-issued identity assertions are rejected" time="0.008579" classname="test"/>
+	<testcase name="missing or wrong browser binding cannot complete someone else's state" time="0.000798" classname="test"/>
+	<testcase name="transaction expires and duplicate callback parameters are rejected" time="0.001157" classname="test"/>
+	<testcase name="callback and handoff each permit one use only" time="0.002007" classname="test"/>
+	<testcase name="verified but unassigned Google subjects do not get an application session" time="0.001434" classname="test"/>
+	<testcase name="handoff checks exact Origin and expires independently of provider tokens" time="0.001537" classname="test"/>
+	<testcase name="provider errors and timeout do not fall back to demo sessions" time="0.028404" classname="test"/>
+	<testcase name="provider expiry caps the application session at handoff" time="0.002321" classname="test"/>
+	<testcase name="identity configuration pins the callback origin and rejects ambiguous bindings" time="0.000436" classname="test"/>
+	<testcase name="identity start attempts are bounded" time="0.000757" classname="test"/>
+	<testcase name="HTTP Google mode disables demo login and redeems verified browser-bound identity" time="0.139573" classname="test"/>
+	<testcase name="HTTP assessment remains available after restart and old bearer tokens are invalid" time="0.263719" classname="test"/>
+	<testcase name="pending evidence and approved review survive reopen while sessions do not" time="0.075267" classname="test"/>
+	<testcase name="create and its audit event roll back together on audit failure" time="0.023809" classname="test"/>
+	<testcase name="failed review cannot durably release a score or record a partial decision" time="0.043321" classname="test"/>
+	<testcase name="stale versions cannot overwrite a committed assessment or append an audit event" time="0.028276" classname="test"/>
+	<testcase name="exclusive ownership prevents a second instance from recovering active work" time="0.660708" classname="test"/>
+	<testcase name="abrupt process exit rolls back a fake release and abstains interrupted evaluation" time="0.151981" classname="test"/>
+	<testcase name="persisted owner and tenant bindings still deny unrelated identities" time="0.035803" classname="test"/>
+	<testcase name="retained audit corruption fails closed at reopen" time="0.025681" classname="test"/>
+	<testcase name="resume attachment enforces tenant, ownership and candidate role" time="0.008053" classname="test"/>
+	<testcase name="resume rejects extra trust fields, empty, oversized, binary and malformed Unicode content" time="0.001514" classname="test"/>
+	<testcase name="resume is immutable, hash bound and source-supported quotations release without verifying qualifications" time="0.004793" classname="test"/>
+	<testcase name="absent resume and fabricated quotations abstain; source statements are not independently verified" time="0.000847" classname="test"/>
+	<testcase name="sensitive and instruction-like resume quotations are held for review" time="0.005890" classname="test"/>
+	<testcase name="provider cannot mutate persisted resume evidence" time="0.001420" classname="test"/>
+	<testcase name="SQLite restart preserves resume provenance and enforces content hash before evaluation" time="0.049764" classname="test"/>
+	<testcase name="HTTP resume route rejects anonymous access and binds authenticated text to assessment" time="0.174954" classname="test"/>
+	<!-- tests 50 -->
+	<!-- suites 0 -->
+	<!-- pass 50 -->
+	<!-- fail 0 -->
+	<!-- cancelled 0 -->
+	<!-- skipped 0 -->
+	<!-- todo 0 -->
+	<!-- duration_ms 1300.5022 -->
+</testsuites>

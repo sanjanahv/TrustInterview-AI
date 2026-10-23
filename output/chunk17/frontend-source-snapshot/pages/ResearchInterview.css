@@ -1,0 +1,16 @@
+.research-page { max-width: 860px; margin: 0 auto; padding: 36px 24px; color: #17283b; font-family: system-ui, sans-serif; line-height: 1.6; }
+.research-page header { margin-bottom: 28px; }
+.research-kicker { color: #146158; font-weight: 700; letter-spacing: .08em; }
+.research-page h1 { font-size: 2.3rem; margin: 0; }
+.research-card { padding: 26px; border: 1px solid #c9d5df; border-radius: 12px; background: white; }
+.research-page label { display: block; font-weight: 600; margin-top: 14px; }
+.research-page input, .research-page textarea, .research-page select { display: block; box-sizing: border-box; width: 100%; padding: 12px; border: 1px solid #738697; border-radius: 5px; font: inherit; }
+.research-page textarea { min-height: 130px; }
+.research-page button { padding: 10px 18px; margin: 16px 12px 0 0; border: 0; border-radius: 5px; background: #125d55; color: white; font: inherit; cursor: pointer; }
+.research-page button:disabled { opacity: .55; cursor: wait; }
+.research-page :focus-visible { outline: 3px solid #ae7022; outline-offset: 3px; }
+.research-session { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+.research-error { padding: 15px; border-left: 4px solid #a52132; background: #fff0f0; }
+.research-page blockquote { margin: 18px 0; padding: 15px; background: #edf4f6; white-space: pre-wrap; overflow-wrap: anywhere; }
+.research-page code { overflow-wrap: anywhere; }
+@media (max-width: 500px) { .research-page { padding: 20px 12px; } .research-card { padding: 18px; } .research-page h1 { font-size: 1.8rem; } }

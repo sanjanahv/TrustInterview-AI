@@ -1,0 +1,18 @@
+{
+  "status": "pending_annotations",
+  "cases": 48,
+  "completedA": 0,
+  "completedB": 0,
+  "pendingA": 48,
+  "pendingB": 48,
+  "agreement": null,
+  "groundTruth": null,
+  "efficacyMetrics": null,
+  "inputSha256": {
+    "output/chunk15/pilot-cases.json": "91b0d72345a082e6b5da0bc577fe3b5e5bd574c9c3a236a414102ce6959f4e74",
+    "output/chunk15/annotator-A-BLANK.json": "99d815197eb41d84631644a5247fdc16a9413a6a0297fd1f026c2bae39fd0f31",
+    "output/chunk15/annotator-B-BLANK.json": "f6a6998e2b76b9f0f85f9facb6df61faae0f0d0bb4912d790b04563d9fea93de",
+    "output/chunk15/adjudication-BLANK.json": "e6ef0d40346a8110cd02674312c496b1ff14c7fd33b63b6618542fec20c25414"
+  },
+  "limitations": "Tool validation cannot establish human independence or annotation quality. Pilot metrics are descriptive; confidence intervals and a powered final study remain required."
+}

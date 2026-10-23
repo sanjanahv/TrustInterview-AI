@@ -1,0 +1,600 @@
+% =============================================================
+%  IEEE Conference Paper — TrustInterview AI
+%  Zero Trust Architecture with Bias Risk and Grounding Controls
+%  for AI Interview Systems
+%
+%  RV College of Engineering, Bengaluru
+%  Authors: Sai Pranavi A P, Sai Triveni B, Sanjana H V, Sneha V
+%  Faculty Coordinator: Apoorva Chate
+%  
+%  Compile: pdflatex -> bibtex -> pdflatex -> pdflatex
+%  DRAFT STATUS: Claims reconciled with preliminary artifacts.
+%  Full efficacy study and compiled IEEE layout verification remain pending.
+% =============================================================
+
+\documentclass[conference]{IEEEtran}
+\IEEEoverridecommandlockouts
+
+% Packages
+\usepackage{cite}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{algorithmic}
+\usepackage{graphicx}
+\usepackage{textcomp}
+\usepackage{xcolor}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{caption}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+
+\captionsetup{justification=centering, labelfont=bf}
+
+\begin{document}
+
+\title{Zero Trust Architecture with Bias Risk and Grounding Controls for AI Interview Systems}
+
+\author{%
+\IEEEauthorblockN{Sai Pranavi A P}
+\IEEEauthorblockA{\textit{Dept. of AI \& ML}\\
+\textit{RV College of Engineering}\\
+Bengaluru, India}
+\and
+\IEEEauthorblockN{Sai Triveni B}
+\IEEEauthorblockA{\textit{Dept. of AI \& ML}\\
+\textit{RV College of Engineering}\\
+Bengaluru, India}
+\and
+\IEEEauthorblockN{Sanjana H V}
+\IEEEauthorblockA{\textit{Dept. of AI \& ML}\\
+\textit{RV College of Engineering}\\
+Bengaluru, India}
+\and
+\IEEEauthorblockN{Sneha V}
+\IEEEauthorblockA{\textit{Dept. of AI \& ML}\\
+\textit{RV College of Engineering}\\
+Bengaluru, India}
+}
+
+\IEEEaftertitletext{\vspace{1em}
+\centering
+\textbf{Faculty Coordinator:}\\
+Apoorva Chate\\
+\textit{Dept. of AI \& ML, RV College of Engineering, Bengaluru, India}
+}
+
+\maketitle
+
+\begin{abstract}
+AI-assisted interviews require controls over both access to candidate resources and the release of model-generated assessments. This paper presents TrustInterview AI, a Zero Trust Architecture that separates access assurance from AI output assurance. Access decisions depend on identity, role, tenant, resource ownership and session context; output decisions depend on bias-risk evidence, grounding, provenance and control health. The architecture permits release, review and abstention rather than treating every uncertain output as valid or false. We distinguish the proposed architecture from the historical prototype through a code-to-requirement traceability analysis. A separate executable reference service implements selected access and output controls, with a narrow server-owned keyword rubric and strict evidence-quote validation. Seventeen automated control tests passed, and fourteen output-contract fixtures matched their specified decisions. These preliminary checks establish selected implementation invariants, not demographic fairness or hallucination detection accuracy. Component timings exclude model inference and deployment costs. An evaluation protocol specifies independent annotation, paired counterfactuals, adversarial workflows and system ablations. Live-model efficacy, verified external identity and resume-workflow integration remain unvalidated.
+
+\end{abstract}
+
+\begin{IEEEkeywords}
+Zero Trust Architecture, output assurance, bias risk, source grounding, AI-assisted interviews, policy enforcement
+
+\end{IEEEkeywords}
+
+\section{Introduction}
+
+An AI interview workflow transfers information across several boundaries: a candidate submits evidence, an application retrieves assessment resources, a model produces feedback, and a recruiter receives an evaluation. An authenticated request can still address another candidate's resource, while a correctly authorized model call can still produce unsupported or discriminatory content. These failure modes require separate decisions about access and output release.
+
+Research on language-model hiring decisions documents sensitivity to demographic signals and candidate names~\cite{an2024discriminate,nghiem2024name}. Hallucination research also distinguishes generated claims from the evidence needed to support them~\cite{zhang2025sirens}. In an interview, an unsupported model statement about a candidate is different from an inconsistency in a candidate's own answer. Prompt injection introduces a further risk: candidate-supplied text may attempt to influence the workflow rather than merely describe qualifications~\cite{baxi2026prompt}. Combining these concerns under a single detector score obscures which boundary failed and what action should follow.
+
+\subsection{Research Objective}
+
+This work investigates how Zero Trust Architecture can govern an AI interview workflow while incorporating bias-risk and grounding controls. NIST SP 800-207 provides the access-control foundation~\cite{rose2020zero}; the proposed output-assurance plane is an application-level extension. Model output is treated as untrusted input to an enforcement decision, without describing the model as an intentional attacker. The objective is to make release conditions explicit, enforceable and auditable, rather than claim that access security alone establishes fairness.
+
+\subsection{Architectural Approach}
+
+The access-assurance plane evaluates identity, role, tenant, resource ownership and session context. The output-assurance plane evaluates the artifact to be released, including bias-risk evidence, source support, instruction-like content, provenance and control availability. Their decisions are coupled at workflow transitions: permission to invoke an assessment does not automatically permit release of its result. Unsupported or uncertain output can be withheld for review or lead to abstention. A candidate-provided resume supplies evidence for source-grounding checks, but does not independently prove the truth of a qualification.
+
+\subsection{Contributions and Evidence Boundary}
+
+The contributions are:
+\begin{enumerate}
+\item A dual-policy architecture and threat model connecting resource access with bias-risk and grounding decisions in an AI interview workflow.
+\item A traceability analysis separating the historical prototype's implemented, partial, missing and simulated controls, together with an executable reference service for selected enforcement invariants.
+\item A reproducible preliminary verification artifact and an evaluation protocol for security, output support, demographic counterfactuals and operational cost.
+\end{enumerate}
+
+The preliminary service uses a fixed keyword rubric and an offline provider fixture. Its candidate and reviewer workflow now connects to the default interface, but excludes the historical resume and OAuth routes and does not establish the efficacy of a deployed language-model interview system. The historical prototype's thirteen named modules provide implementation context; their count is not treated as evidence of architectural novelty or independent protection.
+
+\subsection{Paper Organization}
+
+Section II reviews related work. Section III defines terminology and the threat model. Section IV presents the dual-policy architecture. Section V traces implementation requirements to the reviewed prototype. Section VI specifies the evaluation protocol and reports limited reference-service checks. Sections VII and VIII discuss limitations and conclusions.
+
+\section{Related Work}
+
+\subsection{Zero Trust and AI Risk Governance}
+
+NIST SP 800-207 defines Zero Trust Architecture (ZTA) as a resource-centred security model in which network location or asset ownership does not create implicit trust~\cite{rose2020zero}. Access is decided for a particular subject, resource and session using identity, device and contextual evidence. NIST SP 800-207A extends this reasoning to cloud-native applications by emphasizing application and service identities in addition to user and network attributes~\cite{chandramouli2023zero}. These standards provide the policy decision and enforcement concepts used in this work, but their primary concern is authorized access to resources rather than the semantic quality of generated content.
+
+The NIST Generative AI Profile treats confabulation, harmful bias, information integrity, privacy and information security as distinct but interacting system risks~\cite{nist2024genai}. It recommends empirical testing, subgroup evaluation, provenance controls, adversarial testing and monitoring instead of relying on model-level assurances alone. This systems perspective is especially relevant to recruitment: the EU Artificial Intelligence Act lists systems used to analyse applications or evaluate candidates among the employment uses classified as high risk~\cite{eu2024aiact}. Together, these sources motivate two related control questions: whether an actor is authorized to invoke an interview operation, and whether the resulting AI artifact satisfies the policy required for release or use.
+
+\subsection{Bias and Fairness in AI-Assisted Hiring}
+
+Research on algorithmic hiring shows that removing explicit demographic fields does not necessarily remove demographic information. Parasurama and Sedoc found that gender remained predictable from a large resume corpus even after several forms of obfuscation~\cite{parasurama2022gendered}. This result limits what can be inferred from name masking or protected-word removal alone.
+
+Recent LLM studies measure bias through controlled changes to candidate attributes. An \emph{et al.} varied names associated with race, ethnicity and gender and observed that hiring outcomes were both group-sensitive and prompt-sensitive~\cite{an2024discriminate}. Nghiem \emph{et al.} similarly reported different employment and salary recommendations for candidates with identical qualifications but different race- and gender-associated names~\cite{nghiem2024name}. JobFair formalized counterfactual resume evaluation using level, spread and rank-based measures, showing why a binary keyword hit is not a sufficient fairness metric~\cite{wang2024jobfair}. More recent resume-matching work also found that explicit demographic effects and implicit education-related effects can differ, which supports evaluating multiple attributes and outcome measures~\cite{iso2025bias}.
+
+These studies evaluate allocational behaviour: whether comparable candidates receive comparable scores, rankings or decisions. In contrast, screening a generated question for references to age, religion, marital status or other sensitive attributes is a content-risk control. The two functions are complementary but not interchangeable. Accordingly, this work treats sensitive-content screening as an enforcement signal and reserves fairness claims for counterfactual and subgroup evaluation.
+
+\subsection{Hallucination and Resume Grounding}
+
+Hallucination research distinguishes content that conflicts with a supplied source from content that conflicts with external knowledge~\cite{zhang2025sirens}. This distinction is important in interviews. If a generated evaluation attributes a skill to a candidate that is absent from the resume, the output is unsupported by the available evidence; it is not proof that the candidate lacks that skill. We therefore use the narrower term \emph{resume-grounding failure} for this condition.
+
+Detection methods also have different evidence requirements. SelfCheckGPT estimates factuality from disagreement across multiple samples without requiring access to model probabilities or an external database~\cite{manakul2023selfcheck}. Source-grounded checking instead tests whether a claim is supported, contradicted or left undetermined by an identified document. Neither approach guarantees truth: self-consistency can repeat the same error, while a resume is a candidate-supplied source rather than an independent record. These limitations motivate explicit \emph{unverified} and human-review outcomes rather than converting missing resume evidence into a false claim.
+
+\subsection{Adversarial Resume Inputs}
+
+Resume text is both evidence for the interview and untrusted input to the language model. Baxi \emph{et al.} showed that prompt injections embedded in resumes can improve an applicant's ranking in some controlled screening conditions without adding qualifications~\cite{baxi2026prompt}. RAPIDS further demonstrated that generic prompt-injection detection may be inadequate for domain-specific resume attacks and evaluated a cascaded detector for this setting~\cite{augey2026rapids}. These findings connect application security and fairness: successful manipulation may alter the relative treatment of otherwise comparable candidates.
+
+\subsection{Research Gap}
+
+Prior work provides mature ZTA concepts for access decisions, empirical methods for measuring hiring bias, techniques for detecting unsupported generation, and specialised defences against resume prompt injection. The literature largely evaluates these controls in separate pipelines. The remaining systems question is how to combine identity and resource evidence with bias-risk, grounding and integrity evidence while preserving explicit decisions, enforcement actions and audit traces. This paper addresses that integration gap through an access-assurance plane and an AI-output-assurance plane. The architecture does not redefine bias or hallucination as access-control problems; it uses a shared policy-enforcement structure to prevent an unauthorized request or an unacceptable AI artifact from influencing the interview workflow.
+
+\section{Terminology and Threat Model}
+
+\subsection{Operational Definitions}
+
+We use Zero Trust in the resource-access sense defined by NIST SP 800-207~\cite{rose2020zero}. A \emph{subject} is a candidate, recruiter, administrator or service identity requesting an operation. A \emph{resource} is a protected object or capability, including a resume, interview session, generated question, candidate answer, evaluation, score, report, model endpoint or audit record. The \emph{Policy Decision Point} (PDP) evaluates policy and evidence to grant, deny or revoke an operation, while the \emph{Policy Enforcement Point} (PEP) mediates access to the resource and applies that decision. Authentication establishes the identity bound to a session; authorization determines whether that identity may perform the requested action on the specific resource. A valid session therefore does not imply access to every interview or report.
+
+An \emph{AI artifact} is model-generated content that may enter the interview workflow, such as a question, evaluation, explanation or report. A \emph{sensitive-content risk} is a policy-relevant reference to a protected or job-irrelevant attribute; detecting such a reference does not by itself demonstrate statistical fairness. \emph{Allocational fairness} concerns differences in scores, rankings or decisions across comparable demographic groups and is evaluated separately using counterfactual and subgroup measures.
+
+We reserve \emph{model hallucination} or \emph{confabulation} for model-generated content that is unsupported by its input, internally inconsistent or inconsistent with established external knowledge~\cite{nist2024genai}. A \emph{resume-grounding failure} occurs when an AI artifact makes a candidate-specific claim that is not supported by the submitted resume. A \emph{candidate--resume inconsistency} occurs when an answer conflicts with the resume; absence from the resume alone is labelled \emph{unverified}, because the resume is incomplete candidate-supplied evidence rather than a ground-truth database. \emph{Prompt injection} is adversarial text intended to alter model instructions or downstream decisions. These definitions prevent candidate inconsistency, model error and adversarial manipulation from being reported as a single ``hallucination'' category.
+
+\subsection{System and Trust Boundaries}
+
+The system boundary includes the browser client, application programming interface, identity and policy services, resume-processing component, AI orchestration layer, output-assurance checks, persistence services and audit ledger. The external model provider and any code-execution or notification service are separate trust domains. Data crossing those boundaries is treated as untrusted even when the service is authenticated.
+
+Five enforcement boundaries structure the analysis. First, the client-to-API boundary validates the session, payload and request context. Second, the access-assurance boundary evaluates role, tenant, ownership and resource policy before the application invokes a protected operation. Third, the application-to-model boundary limits the data and capability supplied to an external model. Fourth, the output-assurance boundary evaluates generated artifacts before they reach scoring, storage or the user interface. Fifth, the audit boundary records the evidence, policy version, decision and enforcement result. This separation reflects the NIST distinction between control-plane decisions and data-plane access while extending mediation to AI artifacts before they influence a high-impact workflow.
+
+\subsection{Actors Assets and Assumptions}
+
+The legitimate actors are candidates, recruiters, administrators and application services. Adversarial behaviour may originate from an unauthenticated attacker, a candidate attempting to influence evaluation, an authorized user accessing another candidate's resources, a compromised session, a malicious document, a faulty integration or an untrusted model output. The model is not treated as an attacker with intent; its output is treated as untrusted data whose errors can nevertheless affect confidentiality, integrity or fairness.
+
+The protected assets are candidate identity data, resumes, answers, interview state, scores, reports, organization settings, model credentials, policy configuration and audit evidence. We assume transport security and the underlying cloud platform operate as configured, but do not assume that a browser, resume, session token, model response or client-calculated value is trustworthy. Model training-time poisoning, biometric identity proofing, video deepfake detection and independent verification of employment history are outside the present prototype. Human reviewers remain responsible for consequential hiring decisions.
+
+\subsection{Threats and Required Policy Outcomes}
+
+Table~\ref{tab:threat-model} states the threats that the architecture is intended to mediate. The table specifies desired policy behaviour rather than claiming that the current prototype already satisfies every requirement. This distinction provides a traceable basis for the later implementation and evaluation sections.
+
+\begin{table*}[t]
+\caption{Threat Model and Required Enforcement Outcomes}
+\label{tab:threat-model}
+\centering
+\footnotesize
+\renewcommand{\arraystretch}{1.12}
+\begin{tabular}{@{}p{0.045\textwidth}p{0.245\textwidth}p{0.235\textwidth}p{0.405\textwidth}@{}}
+\toprule
+\textbf{ID} & \textbf{Threat} & \textbf{Primary assets} & \textbf{Required decision and enforcement} \\
+\midrule
+T1 & Forged, expired, replayed or unbound session & Identity, session, all protected resources & Deny before resource access; bind the decision to verified subject and current session evidence; audit the rejection. \\
+T2 & Role, tenant or ownership bypass & Resumes, interviews, reports, settings & Deny cross-role, cross-tenant and cross-candidate operations at the resource PEP, including requests carrying an otherwise valid token. \\
+T3 & Client-side score or result tampering & Answers, scores, reports, leaderboard & Ignore client-asserted authoritative results; compute and finalize assessment state on the server with idempotent ownership checks. \\
+T4 & Direct or resume-borne prompt injection & Model instructions, ranking and evaluation integrity & Treat document text as untrusted data; detect or isolate instructions, constrain model capabilities and prevent injected text from authorizing downstream actions. \\
+T5 & Sensitive, discriminatory or job-irrelevant generated content & Questions, evaluations, candidate treatment & Block, regenerate or route the artifact for human review; record the triggering evidence without claiming that the filter proves fairness. \\
+T6 & Unsupported or contradictory model-generated claim & Evaluations, explanations, reports & Compare candidate-specific claims with available evidence; label supported, contradicted or unverified; abstain or require review when evidence is insufficient. \\
+T7 & Candidate--resume inconsistency or impossible technical claim & Answer integrity, assessment evidence & Record the inconsistency separately from model hallucination; request clarification or human review instead of silently converting it into a factual judgment. \\
+T8 & Cross-candidate or provider-boundary disclosure & Personal data, resumes, answers, reports & Apply least privilege and data minimization; isolate caches and persistence; disclose only the fields required for the authorized operation. \\
+T9 & Audit deletion, fabrication or incomplete mediation & Policies, decisions, forensic evidence & Record attempts and outcomes with policy and correlation identifiers; restrict mutation and detect gaps between protected operations and audit events. \\
+T10 & Resource exhaustion, dependency failure or unsafe fallback & Availability, scoring consistency, policy enforcement & Rate-limit and bound expensive parsing/model calls; expose failure provenance; use a declared fail-safe or human-review state rather than an unlabelled fallback score. \\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+Prompt injection and improper output handling are included because model instructions are not an authorization boundary. OWASP similarly recommends complete mediation in downstream systems, least-privilege capabilities and independent validation of model outputs~\cite{owasp2025llm}. In this architecture, the LLM may propose content but cannot grant access, finalize an authoritative score or bypass a PEP. The evaluation must therefore test both detector performance and whether the corresponding enforcement action actually prevents the threatened state change.
+
+\section{Dual Policy Zero Trust Architecture}
+
+The proposed architecture applies complete mediation to two different decision domains. The \emph{access-assurance plane} determines whether a verified subject may perform an operation on a particular interview resource. The \emph{AI-output-assurance plane} determines whether a generated artifact may be released, persisted or used in scoring. Both planes use explicit evidence, versioned policy, a decision point, an enforcement point and an audit event. They remain separate because authorization evidence cannot establish output quality, and a content detector cannot authorize access to candidate data.
+
+\subsection{Design Principles}
+
+The design follows six principles. First, every protected operation is mediated at the resource rather than trusted because it originates inside the application. Second, identity, role, tenant and ownership are server-verified attributes; the browser does not assert authoritative security or assessment state. Third, resumes, candidate answers and model responses are untrusted inputs even when they arrive through an authenticated session. Fourth, model capabilities and disclosed data are limited to the minimum required for the current operation. Fifth, missing or conflicting evidence produces an explicit abstain or review state rather than an optimistic default. Sixth, every consequential decision records its evidence, policy version, action and result.
+
+These principles adapt the PDP--PEP relationship in NIST SP 800-207~\cite{rose2020zero}. The extension is not that a language model becomes a security authority. The model remains behind enforcement points and cannot grant access or finalize an assessment. Instead, the output plane supplies a second policy decision before an artifact crosses from generation into an authoritative application state.
+
+\subsection{Access Assurance Plane}
+
+For an operation $o$ requested by subject $s$ on resource $r$, the access PDP evaluates
+\begin{equation}
+D_{A}=f(I_s,R_s,T_s,O_{s,r},C_o,P_A),
+\end{equation}
+where $I_s$ is verified identity evidence, $R_s$ is role, $T_s$ is tenant or organization membership, $O_{s,r}$ is the ownership or assignment relation, $C_o$ is session and request context, and $P_A$ is the active access-policy version. The result $D_A$ belongs to $\{\textit{allow},\textit{deny},\textit{step-up},\textit{revoke}\}$. A route-level PEP applies the result before the handler reads or mutates the resource.
+
+Table~\ref{tab:access-policy} gives the minimum policies for the research workflow. The backend resolves resource ownership from persistent state rather than accepting an email address, company or score as proof from the client. Model endpoints are invoked only by a service identity after the candidate operation has been authorized.
+
+\begin{table*}[t]
+\caption{Representative Access Policies for Interview Resources}
+\label{tab:access-policy}
+\centering
+\footnotesize
+\renewcommand{\arraystretch}{1.12}
+\begin{tabular}{@{}p{0.17\textwidth}p{0.20\textwidth}p{0.29\textwidth}p{0.27\textwidth}@{}}
+\toprule
+\textbf{Resource and operation} & \textbf{Permitted subject} & \textbf{Required evidence} & \textbf{PEP action} \\
+\midrule
+Resume upload or read & Candidate owner; assigned recruiter for read & Verified identity, active session, resource owner or explicit assignment, tenant match & Create or return only the authorized record; otherwise deny before parsing or retrieval. \\
+Interview attempt start or resume & Candidate owner & Candidate identity, job eligibility, tenant, attempt state, replay/idempotency key & Create or resume one server-owned attempt and bind all subsequent answers to its identifier. \\
+Question generation & Backend interview service for an authorized attempt & Allowed attempt, resume hash, job profile, policy version, candidate-scoped cache key & Invoke the model with minimized data; prevent reuse across candidates unless policy explicitly permits it. \\
+Answer submission and evaluation & Candidate owner for submission; backend service for evaluation & Attempt ownership, question identifier, sequence state, integrity and rate-limit evidence & Accept the answer once; calculate evaluation and score on the server; reject client-supplied authoritative results. \\
+Report or history read & Candidate owner; assigned recruiter within the same tenant & Identity, role, tenant, resource ownership or assignment & Return the minimum authorized view; deny cross-candidate and cross-tenant requests. \\
+Policy, organization or unblock operation & Authorized administrator & Strong authentication, administrative scope, target tenant and reason & Apply the scoped mutation, require audit correlation and prevent self-asserted administrative role. \\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+\subsection{AI Output Assurance Plane}
+
+After an authorized model operation, the generated artifact remains outside the trusted application state. Evidence collectors analyse the artifact $a$ and produce source-specific signals: sensitive-content findings $B_a$, grounding findings $G_a$, integrity or injection findings $J_a$, provenance $V_a$, and detector health $H_a$. The output PDP evaluates
+\begin{equation}
+D_{O}=g(B_a,G_a,J_a,V_a,H_a,P_O),
+\end{equation}
+where $P_O$ is the output-policy version and $D_O$ belongs to $\{\textit{allow},\textit{regenerate},\textit{abstain},\textit{review},\textit{deny}\}$. The output PEP applies this result before the artifact reaches the user interface, scoring logic or persistence layer.
+
+The policy distinguishes the source and purpose of text. A sensitive phrase in a generated question is attributed to the model output; the same phrase quoted by a candidate while challenging an inappropriate question is not automatically attributed to the candidate. Grounding checks operate at claim level and return \emph{supported}, \emph{contradicted} or \emph{unverified}. Lexical indicators of impossible versions or percentage bounds are treated as rule evidence, not as a complete factuality judgment. Prompt-injection evidence affects both input handling and whether the resulting output may trigger a downstream action.
+
+\begin{table*}[t]
+\caption{Output Evidence and Enforcement Policy}
+\label{tab:output-policy}
+\centering
+\footnotesize
+\renewcommand{\arraystretch}{1.12}
+\begin{tabular}{@{}p{0.16\textwidth}p{0.29\textwidth}p{0.22\textwidth}p{0.26\textwidth}@{}}
+\toprule
+\textbf{Artifact} & \textbf{Evidence evaluated} & \textbf{Possible decision} & \textbf{Enforcement before trust transition} \\
+\midrule
+Generated interview question & Sensitive or job-irrelevant language, resume relevance, prompt-injection influence, duplicate provenance & Allow, regenerate, review or deny & Release only an allowed question; quarantine rejected candidates and preserve the reason without exposing internal prompts. \\
+Generated answer evaluation & Attribution to answer/resume, unsupported candidate claims, sensitive-content findings, scoring-schema validity & Allow, abstain or review & Prevent unverified narrative or malformed scores from entering the authoritative attempt; request human review where evidence is insufficient. \\
+Final report and explanation & Server-owned score components, source citations, subgroup-neutral presentation, policy and model provenance & Allow, regenerate or review & Build the report from authoritative records; prevent model text from overwriting scores or inventing qualifications. \\
+Candidate inconsistency alert & Resume evidence, answer claim, contradiction or missing-evidence status & Clarify, review or dismiss & Keep the alert separate from model hallucination and from the final hiring decision; expose supporting evidence to the reviewer. \\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+\subsection{Decision Sequence and State Transitions}
+
+An interview operation follows seven ordered steps. The API PEP first normalizes the request and resolves the subject from a verified session. The access PDP then evaluates the subject--resource policy. On denial, the operation terminates and an audit event records the failed decision. On approval, the application loads only the authorized data and invokes the required service with a scoped identity. Model responses enter a provisional state and cannot update scores or reports. Evidence collectors evaluate the response, after which the output PDP selects an action. Finally, the output PEP either releases the artifact, requests regeneration, records abstention, places it in a human-review queue or denies it. Only a successful enforcement result creates a trusted application-state transition.
+
+Regeneration is bounded to avoid loops and correlated failures. A regenerated artifact carries the original correlation identifier and a new generation identifier. If the maximum attempt count is reached, a detector is unavailable, or evidence remains ambiguous, the system moves to abstention or human review according to policy. No failure path silently substitutes a positive score, a verification label or a locally generated narrative without recording its provenance.
+
+\subsection{Audit and Policy Evidence}
+
+Each decision record contains a correlation identifier, subject and resource identifiers, tenant, operation, evidence references, policy version, PDP decision, PEP action, model and prompt versions where applicable, timestamps and outcome. Sensitive text and credentials are not copied into general-purpose logs; the audit record stores references or minimized excerpts according to retention policy. Access denial, output rejection, regeneration, override and dependency failure are all auditable outcomes.
+
+Human overrides require an authenticated reviewer, a reason and a link to the superseded decision. An override does not erase the original evidence. This allows later evaluation of false positives, subgroup effects and repeated policy failures while preserving accountability for consequential decisions.
+
+\subsection{Relationship to the Prototype Controls}
+
+The prototype currently exposes 13 named controls. In the research architecture, these controls are grouped by function rather than treated as 13 equivalent or universally sequential layers. Identity, session, device, request, edge and resource-policy controls contribute evidence to the access-assurance plane. Rate limiting, threat intelligence, automated response and audit services provide supporting telemetry and enforcement. Bias-risk and grounding modules contribute evidence to the output-assurance plane. This mapping preserves the implemented modules while making the architectural claim testable: a control counts only when its decision is enforced at the correct resource or artifact transition and its outcome is recorded.
+
+The mapping also prevents overstatement. CORS headers, payload limits and keyword rules are useful controls, but they do not independently establish Zero Trust, fairness or factual correctness. The contribution is the coordinated decision structure, the separation of policy domains and the ability to test whether prohibited state transitions are actually prevented.
+
+\section{Prototype Implementation and Traceability}
+
+\subsection{Reviewed Prototype}
+
+The implementation assessment uses the public \texttt{TrustInterview-AI} repository at commit \texttt{bde47e9c9863eb47acd57b025ecc75b9c3a72aed}. The prototype consists of a React frontend and a Node.js/Express backend. The backend contains middleware for identity, device evidence, policy checks, audit logging, governance screening, automated response and threat intelligence. Separate route and utility modules implement resume parsing, question generation, answer evaluation, lexical bias screening, resume-keyword comparison, question caching and an assessment ledger.
+
+The reviewed snapshot uses a mixture of in-memory state, JSON files and an SQLite helper. It contains integrations for external language-model providers and optional external code execution. The repository does not contain the Docker, AWS EC2, Redis or CloudWatch deployment artifacts previously described in the manuscript, and no LightGBM model, training data or inference path was found. These components are therefore excluded from the verified implementation description. The frontend exposes security status and assessment information, but display of a status is not treated as proof that a backend policy was enforced.
+
+\subsection{Traceability Method}
+
+Each architecture requirement was traced to the active backend entry point, middleware, routes and supporting utilities. A requirement is classified as \emph{implemented} only when the reviewed path produces the required decision and enforces it before the protected state transition. \emph{Partial} indicates that relevant code exists but lacks required identity binding, resource scope, failure handling, coverage or audit evidence. \emph{Simulated} denotes a user-interface or demonstration result that is not derived from an authoritative backend measurement. \emph{Missing} indicates that no enforcing path was identified in the snapshot. Table~\ref{tab:traceability} reports this assessment; it is not an experiment result.
+
+\begin{table*}[t]
+\caption{Architecture-to-Prototype Traceability at the Reviewed Commit}
+\label{tab:traceability}
+\centering
+\scriptsize
+\renewcommand{\arraystretch}{1.10}
+\begin{tabular}{@{}p{0.04\textwidth}p{0.21\textwidth}p{0.095\textwidth}p{0.275\textwidth}p{0.30\textwidth}@{}}
+\toprule
+\textbf{ID} & \textbf{Architecture requirement} & \textbf{Status} & \textbf{Evidence in prototype} & \textbf{Gap before research evaluation} \\
+\midrule
+R1 & Session bound to verified subject, role and tenant & Partial & \texttt{zta-identity.js} signs short-lived sessions and checks an in-memory session identifier. & Anonymous session issuance and tokens without user, role or tenant claims do not establish the requesting subject. Bind sessions to an authenticated server-side principal. \\
+R2 & Resource-level role, tenant and ownership authorization & Missing & \texttt{zta-pdp.js} checks route-level policy and several paths are declared public. & Sensitive user, score, ticket and settings operations lack consistent subject--resource authorization. Add ownership and tenant checks at each resource PEP. \\
+R3 & Server-authoritative attempt, score and final report & Partial & \texttt{routes/evaluate.js} performs model-based answer evaluation and \texttt{routes/interview.js} stores results. & Score-recording and final-report paths accept client-provided identity or result fields. Recompute and finalize immutable attempt state on the server. \\
+R4 & Candidate- and resume-scoped question generation & Partial & \texttt{question-cache.js} and \texttt{question-ledger.js} cache and track generated questions. & Cache identity is based mainly on company and role, allowing resume-specific questions to be reused across candidates. Include candidate, resume hash and policy version. \\
+R5 & Bounded input parsing and request threat controls & Partial & Payload limits, governance patterns, rate limiting, threat-intelligence checks and PDF/OCR handling are present. & Parser isolation and resource limits are incomplete; automated block expiry and reset paths are inconsistent. Define bounded subprocess and deterministic block lifecycle tests. \\
+R6 & Complete audit record for allow and deny decisions & Partial & \texttt{zta-audit.js} records request metadata and response status, and the ledger records assessments. & Early middleware rejections and non-standard responses may bypass the audit wrapper; policy version, resource identity, evidence references and correlation identifiers are absent. \\
+R7 & Source-aware bias-risk evidence & Partial & Question and evaluation routes scan configured lexical categories and candidate-name tokens. & Substring rules create benign matches, category definitions differ by route, and candidate quotations may be attributed to the model. Use token/context boundaries and preserve text provenance. \\
+R8 & Three-way resume grounding and claim evidence & Partial & \texttt{hallucination-checker.js} checks selected version, metric and resume-keyword patterns. & Missing resume evidence can be reported as verified; negation, aliases and punctuated technologies are handled inconsistently. Return supported, contradicted or unverified with claim-level evidence. \\
+R9 & Output PEP enforcing allow, regenerate, abstain, review or deny & Missing & Detector findings and risk metadata are returned by selected evaluation paths. & Findings do not consistently prevent question release, narrative generation, persistence or scoring; clients can supply some detector state. Add one server-side output PEP for every artifact transition. \\
+R10 & Least-privilege external model and service invocation & Partial & Model and code-execution calls are made from backend routes and retries are available. & Provider initialization, fallback and multi-sample provenance are inconsistent, and successful sample counts are not reliably exposed. Record provider, model, prompt, transmitted fields and fallback outcome. \\
+R11 & Tenant-scoped transactional persistence & Partial & An SQLite helper, JSON ledgers and in-memory session/block state exist. & Active paths use multiple stores with synchronous whole-file updates and no common transaction or multi-process locking model. Consolidate authoritative state and scope every record by tenant and owner. \\
+R12 & Authenticated human-review and override workflow & Missing & The frontend displays detector messages and security status. & No server-owned review queue, reviewer authorization, reasoned override or link to the original decision was identified. Implement review as an auditable resource transition. \\
+R13 & Measured rather than simulated user-facing evidence & Simulated & The interface demonstrates security events, code-run results and explanatory visualizations. & Several values are static, heuristic or locally generated. Label demonstrations and derive research figures only from recorded backend evidence. \\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+\subsection{Detector Behaviour in the Snapshot}
+
+The bias component is an inspectable rule system, which is useful for deterministic policy tests. Its current unit of evidence is primarily a substring match. Consequently, protected terms embedded inside unrelated words can trigger findings, while context-dependent or coded language can pass. The component should therefore be described as a lexical sensitive-content screen rather than a fairness detector. Its research value lies in transparent enforcement and measurable error analysis, not in the number of configured categories.
+
+The grounding component combines a small set of impossible-version and numeric patterns with technical-keyword overlap between answers and resumes. This is a preliminary evidence extractor. Keyword overlap does not establish entailment, external truth or candidate dishonesty. The corrected architecture consequently requires claim extraction, provenance, three-way labels and a review state. Candidate inconsistency and model confabulation remain separate event types in storage and evaluation.
+
+\subsection{Research-Critical Remediation Order}
+
+The traceability gaps impose an implementation order before the proposed architecture can be evaluated. First, sessions must be bound to verified principals and all protected resources must enforce role, tenant and ownership policy. Second, interview attempts, scores, detector evidence and final reports must become server-authoritative. Third, cache keys and persistence must isolate candidates and tenants. Fourth, bias and grounding modules must emit source-aware, claim-level evidence to a single output PEP. Fifth, every decision and override must produce a correlated audit event. Only after these paths are covered by regression tests should latency, attack-blocking, fairness or grounding experiments be run.
+
+This staged interpretation preserves the prototype's contribution without equating the presence of middleware with completed ZTA enforcement. The present snapshot demonstrates architectural components and failure cases; the research artifact will be the remediated, versioned implementation against which the evaluation protocol is executed.
+
+\subsection{Subsequent Reference-Workflow Integration}
+
+After the preliminary reference snapshot was retained, the default backend entry point and React application were connected through a dedicated candidate and reviewer workflow. The interface obtains a provisioned session, creates a server-owned assessment, submits an answer without client scores, displays only released results and allows an authorized reviewer to inspect held evidence and record a decision. Browser role displays do not replace backend authorization. An HTTP integration test checks the hold--review--release sequence, including denial of candidate review access and cross-tenant reviewer access. Two interface tests exercise answer submission and reviewer decision requests. The extended backend suite contains eighteen passing tests; these integration checks are distinct from the seventeen-test snapshot reported below.
+
+This change integrates the constrained reference workflow rather than retrofitting every historical route. The original resume upload and OAuth workflow remain outside the new boundary. Provisioned local credentials do not establish verified external identity, and the provider remains an offline fixture. The original timing and contract records retain their exact source snapshot so that subsequent code changes do not alter the evidence supporting those preliminary results.
+
+
+\subsection{Bound Resume Evidence}
+
+The subsequent reference workflow accepts an optional, candidate-supplied plain-text resume before answer submission. Attachment enforces candidate role, tenant and assessment ownership, rejects unexpected fields and invalid text, and limits the source to 8000 UTF-8 bytes. The assessment stores the text and its SHA-256 digest transactionally with an audit event containing the digest rather than the resume text. Attachment is permitted once; sources cannot be replaced after submission. The digest is checked before provider invocation and included in the cache context. This binding detects content mismatch within the workflow; it does not authenticate the resume author or withstand an administrator rewriting both text and digest.
+
+The provider receives an isolated copy of the assessment's answer, question and attached resume. The output policy accepts only bounded quotations linked to those source identifiers. An absent source or an unsupported quotation causes abstention, while selected sensitive-attribute and instruction-like quotations require review. These decisions concern output provenance: an exact quotation from a candidate-supplied resume does not verify a qualification, establish semantic entailment or identify candidate dishonesty. The existing keyword score is unchanged by resume contents. The default offline provider still quotes the answer; resume quotations are exercised through controlled test providers. Eight additional tests cover access isolation, bounded ingestion, source immutability, missing and fabricated evidence, review triggers, provider mutation, SQLite restart and hash mismatch, and the HTTP route. The cumulative backend suite contains fifty passing tests. These checks are not annotated hallucination or fairness measurements. PDF parsing, OCR and semantic three-way claim classification remain unimplemented in this reference workflow.
+
+\subsection{Controlled Claim-Level Grounding}
+
+The next reference revision adds a bounded claim comparison rather than a general semantic entailment model. It recognises whole-line first-person technology-use statements of the form ``I have used Python'' and their explicit ``not used'' negations. A fixed alias vocabulary distinguishes Java from JavaScript and preserves technologies containing punctuation. Each extracted claim receives an identifier, its original text, a source-relative label, a reason and exact resume quotations. Matching polarity yields source-supported; opposite polarity yields source-contradicted. Missing evidence, conflicting source assertions, unrecognised technologies and wording outside the controlled grammar yield undetermined. Resume omission is not contradiction. Statements outside the extraction scope are not silently counted as successfully verified claims.
+
+The output PEP incorporates these labels under policy version \texttt{research-0.2}. Undetermined extracted claims cause abstention, and source contradictions hold otherwise releasable output for authorized review. A structurally invalid provider output remains blocked regardless of claim labels. Neither agreement nor a reviewer decision proves a candidate's qualifications. Claim evidence is persisted with the attempt and shown to the candidate and authorized reviewer; fixed keyword scoring remains independent of resume statements. Eight additional tests cover polarity, aliases, missing and conflicting evidence, unsupported wording, provenance and enforcement, bringing the cumulative backend suite to fifty-eight passing tests. These are authored contract cases, not an independently annotated accuracy benchmark. General resume prose, temporal claims, experience duration, competence, reported speech and factual verification require a broader annotation protocol and are not established by this implementation. Candidate--resume inconsistency remains distinct from model hallucination; the provider's generated quotations continue to undergo the separate structural grounding check.
+
+\subsection{Transactional Persistence and Restart Recovery}
+
+The subsequent reference release replaces volatile assessment storage in the default API with a single-process SQLite store. An assessment transition and its correlated audit event commit within one transaction. Server-held record versions reject stale updates, and exclusive database ownership prevents another service instance from applying recovery to active work. Pending evidence and recorded review decisions remain available after reopening the database. Sessions are intentionally volatile, so previously issued bearer tokens become invalid after restart.
+
+An interrupted evaluation is recovered as abstained with a recorded recovery reason. It is not automatically scored, replayed or released. Persistence checks exercise reopening, audit-failure rollback, stale-version rejection, owner and tenant enforcement, audit corruption and abrupt process exit. A separate HTTP test confirms that a released assessment can be retrieved after restart only with a fresh session. Together with the existing control tests, this release has twenty-seven passing backend tests. These are selected software checks; they do not certify hardware power-loss recovery, distributed operation, storage encryption or hiring-system efficacy. The earlier component benchmark retains its original in-memory configuration and is not a measurement of SQLite overhead.
+
+
+\subsection{Provider Identity Adapter and Verification Scope}
+
+A subsequent release adds a Google OpenID Connect authorization-code adapter following the provider's documented server flow~\cite{google_oidc}. Google's authentication library verifies the token signature and provider claims. The application additionally checks a browser-bound, expiring one-use state, nonce, authorized party, verified-email flag and transaction age. Authorization uses a provisioned provider subject mapped to a server-held tenant, identity and role. Neither a browser role field nor an email-domain match grants reviewer access. An S256 code challenge is supplied during authorization and its retained verifier accompanies code exchange.
+
+The callback creates a short-lived, one-use HttpOnly handoff cookie and redirects to a fixed frontend origin without placing an application bearer token in the URL. The interface redeems the handoff through an origin-checked JSON request. In provider mode, local credential issuance is disabled, and absent provider configuration does not trigger a mock fallback. Sessions remain subject to the existing ownership, tenant and resource policies.
+
+Fifteen added identity tests include actual RSA signature verification through the installed SDK using a local test key in place of fetched provider keys. They exercise invalid signatures, issuer and audience mismatch, nonce mismatch, expired assertions, browser binding, replay, unassigned subjects, provider failures and HTTP handoff. Combined with the prior suites, forty-two backend tests pass. Four interface tests pass and the frontend build succeeds. The token exchange and key retrieval are fixtures: no live Google sign-in has been performed. Provider configuration, account enrolment, consent, MFA assurance, revocation handling and deployment behavior remain unvalidated. These checks demonstrate selected protocol boundaries and do not establish institutional identity assurance or end-to-end provider interoperability.
+
+\section{Evaluation}
+
+This section specifies the evaluation before the remediated implementation is tested. Freezing tasks, labels, configurations and metrics in advance reduces the risk of selecting favourable examples or changing thresholds after observing results. The current repository snapshot is not treated as the evaluated system; experiments will run against a tagged research release after the requirements in Table~\ref{tab:traceability} are implemented and covered by regression tests.
+
+\subsection{Research Questions and Hypotheses}
+
+The evaluation addresses four questions. \textbf{RQ1} asks whether resource-level ZTA enforcement prevents unauthorized or tampered state transitions. \textbf{RQ2} asks whether the output-assurance plane reduces the release of sensitive, injected or unsupported AI artifacts. \textbf{RQ3} asks whether comparable candidates receive stable outcomes under controlled demographic perturbations. \textbf{RQ4} asks what latency, availability and model-cost overhead is introduced by each assurance plane.
+
+We predefine the following directional hypotheses. \textbf{H1}: the access-assurance configuration has a lower successful-bypass rate than the application baseline. \textbf{H2}: the output-assurance configuration has a lower unsafe-artifact release rate than the unfiltered model workflow. \textbf{H3}: the combined configuration does not increase counterfactual score or rank disparities relative to the baseline and exposes any remaining disparities through recorded evidence. \textbf{H4}: the combined architecture adds measurable overhead, with output checks and model regeneration expected to dominate deterministic access-policy evaluation. Statistical estimates and uncertainty will be reported even when a hypothesis is not supported.
+
+\subsection{System Configurations}
+
+Five frozen configurations separate the contribution of each control plane:
+\begin{itemize}
+\item \textbf{C0--Application baseline}: the same interview workflow with ordinary session handling and no research assurance modules.
+\item \textbf{C1--Access assurance}: C0 with verified identity, resource authorization, server-owned assessment state and decision auditing.
+\item \textbf{C2--Output assurance}: C0 with source-aware bias-risk, grounding and injection evidence plus the output PEP.
+\item \textbf{C3--Combined architecture}: both assurance planes and the shared audit design.
+\item \textbf{C4--Ablations}: C3 with one evidence source or enforcement action removed at a time.
+\end{itemize}
+All configurations use the same interview tasks, prompts, model version, temperature, retry policy and maximum generation count. Configuration changes are expressed through versioned policy rather than separate application implementations.
+
+\subsection{Evaluation Corpora}
+
+The evaluation uses four independently versioned corpora. Table~\ref{tab:evaluation-corpora} records the planned construction and ground truth. Final sample counts will be published with the frozen datasets rather than inferred from the earlier manuscript.
+
+\begin{table*}[t]
+\caption{Planned Evaluation Corpora and Labels}
+\label{tab:evaluation-corpora}
+\centering
+\footnotesize
+\renewcommand{\arraystretch}{1.12}
+\begin{tabular}{@{}p{0.16\textwidth}p{0.28\textwidth}p{0.25\textwidth}p{0.24\textwidth}@{}}
+\toprule
+\textbf{Corpus} & \textbf{Cases} & \textbf{Ground-truth labels} & \textbf{Required controls} \\
+\midrule
+Access and state-transition suite & Valid and invalid sessions, replay, role escalation, cross-tenant and cross-candidate access, score tampering, duplicate finalization and administrative operations & Allow or deny for a specified subject, resource, operation and state; expected audit event & Every protected route has positive and negative cases; identifiers and tenant assignments are generated independently of client input. \\
+Sensitive-content corpus & Generated questions and evaluations containing explicit, contextual and coded references plus benign hard negatives such as ``storage'', ``management'' and technical uses of ``children'' & Source span, policy category, text provenance and action: allow, regenerate, review or deny & Examples are separated by source and use case; lexical overlap alone does not determine the human label. \\
+Grounding corpus & Resume--claim pairs containing paraphrased support, direct contradiction, absent evidence, negation, aliases, version claims, percentages and punctuated technologies such as C++ and C\# & Supported, contradicted or unverified; optional rule tag for impossible or bounded claims & Resume evidence and claim spans are retained; absence is never labelled contradiction without additional evidence. \\
+Adversarial-resume corpus & Direct and indirect prompt injections, formatting obfuscation, benign instructions and ordinary resume text & Injection present or absent, attack objective and whether an unauthorized state transition occurred & Attack success is measured at the enforcement outcome, not only by detector activation, following recruitment-specific threat studies~\cite{baxi2026prompt,augey2026rapids}. \\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+The fairness study is constructed separately from the sensitive-content corpus. Base resumes are paired with variants that change one approved demographic signal while preserving job-relevant qualifications, ordering and formatting. Attributes and name sets will be reviewed for the intended population and reported rather than assumed to generalize across cultures. Each variant is evaluated in randomized order across repeated model runs. The design follows the counterfactual principle used in hiring-bias benchmarks such as JobFair~\cite{wang2024jobfair}; it does not use protected attributes to infer an individual's identity.
+
+\subsection{Annotation Protocol}
+
+Two annotators independently label sensitive-content and grounding examples using a written guide containing definitions, decision rules and boundary examples. They do not see system predictions. Disagreements are resolved by a third reviewer, and both pre-adjudication agreement and the final label distribution are reported. Cohen's $\kappa$ is used for two-annotator categorical agreement; span-level agreement is reported separately where evidence spans are required. Ambiguous examples remain in a declared ambiguity set rather than being forced into the majority class.
+
+Security labels are derived from the resource policy and test fixture, not subjective annotation. Each test specifies the server-side principal, tenant, resource owner, operation, initial state and expected decision. Test generation prevents identifiers embedded in a request body from changing the expected authorization result.
+
+\subsection{Prepared Synthetic Annotation Pilot}
+
+A versioned pilot packet now contains twenty-four claim-grounding cases and twelve paired inputs, each with two variants. Grounding cases cover explicit agreement and contradiction, missing evidence, paraphrases, aliases, conflicting statements, quantities, dates, duration, competence inference, reported speech and instruction-like source content. Claim origin is recorded to distinguish candidate--resume inconsistency from unsupported model assertions. These examples are authored study material, not observed model outputs or independently labelled results. Annotators judge semantic support beyond the reference checker's controlled grammar so that its coverage limitations can be measured rather than excluded from the task.
+
+The paired inputs cover three synthetic junior technical roles and four controlled signals: pronouns, age, marital status and disclosed disability. Within each pair, only the declared signal changes; the job, technical evidence and answer remain identical. These choices require faculty review before a larger study, and do not represent the demographic distribution of an applicant population. Automated packet validation checks twelve complete pairs, forty-eight unique case identifiers, matching technical content, file hashes and two differently ordered blank annotation packets. Pair identifiers, author categories and predictions are excluded from the annotator packets. The written guide defines source-relative labels, evidence spans, ambiguity handling, independent annotation and third-reviewer adjudication. Input-comparability annotation is kept separate from later output-fairness measurement.
+
+No human annotations, adjudications or live model responses have been collected for this packet; consequently it supports no accuracy, discrimination or fairness estimate. It is a procedure pilot and will be excluded from the final held-out test set. Final collection requires independent reviewers, an agreed job rubric, reviewed attribute choices and a powered sample-size design. Extraction coverage, model-origin grounding, candidate-origin inconsistency and demographic differences in release, abstention and review burden must be reported separately. Missing extractions cannot be counted as successful verification, and equality under the fixed keyword scorer is not sufficient evidence of fairness.
+
+\subsection{Annotation Ingestion and Pilot Analysis Tooling}
+
+A standalone analysis tool now validates completed reviewer packets against the frozen case text and identifiers. It checks task-specific label sets, exact Unicode code-point evidence spans, completion timestamps and consistent, distinct reviewer identifiers. Disagreement and flagged ambiguity require an independently identified adjudicator before prediction analysis proceeds. Reviewer identifiers and file hashes cannot establish actual human independence or annotation quality; these remain study-procedure requirements. Agreement is reported separately by task, with raw agreement, Cohen's $\kappa$, label distributions, ambiguity counts and exact span-set agreement. Degenerate or empty agreement calculations remain explicitly undefined.
+
+The prediction importer requires case-bound input hashes and declared model, prompt, policy, rubric and decoding metadata. Grounding analysis retains missing extractions and provider failures in the end-to-end denominator, reports extraction-conditional performance separately and stratifies candidate-origin and model-origin claims. Semantic undetermined labels remain distinct from operational abstention. Paired analysis preserves failed variants and unavailable scores, reports the direction of each contrast and separates completed-pair and scored-pair denominators. Repeated runs are accompanied by unique pair counts. The tool produces descriptive pilot summaries only; powered inference, confidence intervals, rank comparisons and selection-rate analysis are not implemented by this utility. Twelve artificial schema and arithmetic tests pass. Running it against the present packets yields zero completed annotations and a pending status, with agreement and efficacy metrics unset. No synthetic test labels are presented as study ground truth.
+
+\subsection{Controlled Provider Adapter and Output Runner}
+
+The reference workflow subsequently adds an optional Gemini REST adapter behind explicit server-side configuration. The endpoint is fixed, credentials remain outside prompts and retained artifacts, and only bounded answer, question and optional resume text are transmitted. Requests use a constrained JSON schema and permit no tool invocation. A timeout aborts the request; provider errors, blocked or incomplete responses, malformed JSON and oversized responses fail closed without automatic retries or an offline fallback. The application's existing output PEP still rejects fabricated quotations and unexpected score fields. The default remains an offline fixture, and the interface identifies the configured feedback mode. This optional adapter has been exercised with transport fixtures, not a live provider, so provider interoperability and live-output behaviour remain unverified.
+
+A sequential experiment runner supports a bounded, seeded randomized plan and requires a new output directory for each run. It retains case-bound hashes, template hashes, model and decoding metadata, request identifiers, response or sanitized error artifacts, output decisions and explicit failure records. Grounding predictions and paired records are exported separately for the annotation importer. The live grounding task requests source-relative labels with exact source quotations; local validation checks their structural provenance, not the semantic correctness of the labels. The paired task executes the controlled assessment workflow with its fixed ZTA question and keyword rubric; job text does not alter this rubric. Thus, the runner can inspect feedback-release and review disparities but cannot establish hiring-score fairness.
+
+Eleven additional provider and runner tests pass, bringing backend verification to sixty-nine tests. A smoke run over the forty-eight synthetic pilot cases retains forty-eight offline records and zero live model calls. These records test the recording protocol and constrained baseline, not efficacy. Human annotations remain incomplete, so no prediction-to-gold analysis is performed. For successful bounded responses, local artifacts retain the response envelope; rejected or failed requests retain sanitized diagnostics rather than unbounded remote error bodies. No real candidate data were transmitted and no live sign-in or model experiment is claimed.
+
+\subsection{Metrics}
+
+For access security, we report authorization decision accuracy, unauthorized-transition rate, replay acceptance, cross-tenant leakage, tampered-score acceptance and audit-coverage rate. A detector warning without prevention of the protected state transition counts as a security failure.
+
+For sensitive-content and injection detection, we report per-class precision, recall and F1, macro-F1, false-positive rate on hard negatives and unsafe-artifact release rate. For grounding, we report the three-class confusion matrix, per-class and macro-F1, abstention rate, evidence-span agreement and the proportion of claims sent for human review. These measures follow NIST's recommendation to evaluate false positives and false negatives rather than report only selected detections~\cite{nist2024genai}.
+
+For fairness, we report the paired score difference, absolute paired difference, rank change, selection-rate difference and rank-based impact ratio. Results are disaggregated by the controlled attribute and job family. Detector false-positive and false-negative rates are also compared across groups because equal average scores can conceal unequal error burdens.
+
+For performance, we report end-to-end and per-plane latency at the median, 95th and 99th percentiles; model-call count; regeneration rate; token or API cost; timeout rate; and availability. After warm-up runs, each configuration is measured on the same ordered workload under controlled concurrency. Access-policy time, evidence-extraction time, model time and persistence time are recorded separately. Overhead is reported both as an absolute difference and relative to C0.
+
+\subsection{Statistical Analysis}
+
+Rates and metric differences are accompanied by 95\% confidence intervals. Paired bootstrap intervals are used for paired resume variants and repeated-output comparisons. Binary paired outcomes use an appropriate paired test, while score comparisons use a paired parametric or non-parametric test selected after inspecting the distribution. Effect sizes are reported with $p$-values, and Holm correction is applied within each family of tests involving multiple demographic attributes or detector categories. Before final data generation, minimum sample sizes are fixed by a power analysis targeting 80\% power at a two-sided significance level of 0.05; any pilot cases used to estimate variance are excluded from the final test set. Results are not described as ``zero risk'' when the observed numerator is zero; the corresponding uncertainty bound and sample size are reported.
+
+\subsection{Reproducibility and Reporting}
+
+Every run records the repository commit, configuration identifier, policy version, dataset version, input identifier, expected label, model provider and model identifier, prompt hash, decoding parameters, raw response reference, detector evidence, PDP decision, PEP action, latency, retry/fallback path and error state. Random seeds are fixed where supported. Secrets and personally identifiable data are excluded from the released logs, and synthetic identifiers preserve cross-record relationships needed for authorization testing.
+
+The experiment runner exports machine-readable raw results before aggregation. Tables and figures in the paper are generated from those exports by versioned analysis scripts. Failed calls, abstentions and fallback outputs remain in the dataset and are not silently discarded. The final artifact will include the annotation guide, test fixtures, configuration files and a claim--evidence manifest linking each numerical statement in the paper to its generating result.
+
+\subsection{Validity and Ethical Boundaries}
+
+Synthetic cases permit controlled counterfactuals and safe security testing but do not establish performance on real applicants. Any later study using candidate data requires institutional approval, informed participation, data minimization and a process for contesting outcomes. The prototype is evaluated as decision support; it is not used to make autonomous employment decisions. External validity is limited by language, job family, model version, resume format and the demographic signals represented in the benchmark.
+
+The full efficacy study remains pending because the integrated research release and independently annotated datasets have not been frozen. The following preliminary checks concern a separate executable reference service and do not constitute the proposed hiring-system evaluation.
+
+\subsection{Preliminary Reference-Service Verification}
+\label{sec:preliminary_reference}
+
+A dependency-free Node.js reference service implements the separation between access assurance and output assurance. It uses provisioned identities, tenant and resource ownership checks, opaque expiring sessions, server-side revocation, a server-owned scoring rubric, strict output schemas, evidence-quote validation, authorized review and correlated audit events. This service is an uncommitted addition to the reviewed repository; the retained artifact records the base commit and SHA-256 hashes of its source files. At this retained snapshot, the historical prototype and its interface had not been integrated with these controls.
+
+Seventeen automated tests passed on Node.js v22.20.0 under Windows x64. These tests exercise session expiry and revocation, role and tenant isolation, client-score rejection, concurrent submission protection, unsupported output abstention, reviewer authorization, provider failure, cache-context separation and audit integrity. One test confirms that an indirect instruction to assign the maximum score cannot alter the server-owned keyword score. Another confirms that audit write failure withholds the result. Passing these selected tests establishes conformance for their fixtures; it is not an estimate of general attack resistance.
+
+All fourteen output-contract fixtures matched their specified decisions. The expected decisions were authored from the policy, without independent human annotation. The fixtures also preserve known limitations: a supported quotation may contain a false factual claim, an indirect prompt instruction may evade the phrase matcher, and a sensitive attribute outside the trigger vocabulary may pass. Thus, these checks measure structural provenance and policy routing rather than hallucination detection accuracy or discrimination detection accuracy. Eight synthetic name and gender variants received the same fixed keyword score; this deterministic smoke check does not establish demographic fairness.
+
+Table~\ref{tab:reference_microbenchmark} reports a single-process microbenchmark on an Intel Core i5-1155G7. Each configuration has 1000 measured iterations after 50 warm-up rounds, with seeded randomized execution order. The configurations exercise synchronous components only: C0 applies the keyword scorer; C1 adds session and ownership checks; C2 adds the output contract; and C3 combines both checks with in-memory hash-chain audit recording. They are component analogues of the proposed study configurations, not deployed system ablations. Timings exclude HTTP transport, persistent writes, model inference, reviewer work and concurrent traffic, and do not support an end-to-end overhead claim.
+
+\begin{table}[t]
+\caption{Preliminary component timing in milliseconds}
+\label{tab:reference_microbenchmark}
+\centering
+\begin{tabular}{lrrr}
+\hline
+Configuration & p50 & p95 & p99 \\
+\hline
+C0 & 0.0013 & 0.0027 & 0.0053 \\
+C1 & 0.0052 & 0.0116 & 0.0283 \\
+C2 & 0.0029 & 0.0065 & 0.0240 \\
+C3 & 0.0160 & 0.0386 & 0.1458 \\
+\hline
+\end{tabular}
+\end{table}
+
+The retained artifacts include the test report, individual output-contract records, counterfactual smoke records, 4000 timing records and a source-hash manifest. No live language-model calls or independently annotated fairness experiments were performed. At the preliminary snapshot, transactional persistence was absent; the subsequent persistence subsection reports its limited implementation. Verified external identity integration, semantic grounding, validated scoring, externally anchored audit storage and integration with the historical resume workflow remain required before the full protocol can be executed.
+
+\section{Discussion}
+
+\subsection{What the Preliminary Evidence Establishes}
+
+The reference-service checks demonstrate selected transitions between access authorization and output release. Tenant and ownership checks restrict assessment access, while malformed or unsupported feedback is withheld. Client-submitted scores cannot change the server-owned rubric result. These are concrete enforcement properties for the tested implementation and inputs; passing tests does not establish resistance to all attacks.
+
+The output fixtures distinguish useful constraints from broader claims. Exact evidence quotations provide a checkable provenance requirement, but a quotation can reproduce a false candidate statement or selectively omit relevant context. Sensitive-attribute patterns can route an output to review, but their presence does not prove discrimination and their absence does not prove fairness. The reference service therefore offers a constrained release boundary rather than a general hallucination or bias detector. The NIST generative AI risk profile provides a broader risk-management context for evaluating these residual concerns~\cite{nist2024genai}.
+
+\subsection{Implementation and Evaluation Limitations}
+
+The historical resume and OAuth routes remain outside the new reference boundary. The current reference service offers explicitly separate local-demo and Google-provider authentication modes, single-process SQLite assessment and audit storage, an offline assessment provider and a narrow keyword scorer. Provider verification has been tested with signed fixtures, but not a live Google account. Sessions and cache entries remain volatile. Its hash-chain audit detects changes to retained records but lacks external anchoring; a storage administrator could rewrite the chain or truncate its tail. Cache entries are isolated by context, but cache reuse and eviction have not been implemented. Provider timeouts bound waiting without cancelling computation. These limitations prevent a production-readiness claim.
+
+The seventeen tests and fourteen policy fixtures were selected by the implementer. No independently annotated discrimination or semantic-grounding corpus was used, and no live-model calls were made. The eight counterfactual strings exercise the fixed scorer rather than a learned assessment model. The component microbenchmark excludes network transport, persistence, inference, review and concurrency, so it cannot establish deployment latency or throughput. Larger samples alone would not resolve these construct-validity limitations; the study needs the independently labelled tasks and integrated workflow described in the evaluation protocol.
+
+\subsection{Human Review and Governance}
+
+Human review is an authorized workflow state, not an automatic remedy for model bias. Review consistency, evidence access, disagreement and override reasons require evaluation alongside model outcomes. Audit records can support investigation of a decision, but recording a policy outcome does not establish legal compliance or prove that a hiring decision was nondiscriminatory. This work makes no GDPR or FCRA compliance claim. Institutional review and context-specific governance remain prerequisites for any later study involving actual applicants.
+
+\subsection{Next Research Steps}
+
+The next steps are a configured live-provider identity test and resume-evidence integration, followed by a versioned live-model adapter and a frozen release. Single-process transactional assessment storage is implemented, but production persistence and backup requirements remain unvalidated. The empirical study should then measure ownership violations, injected workflow changes, source-supported and unsupported claims, paired demographic outcomes and reviewer decisions. Each result must retain failures, abstentions and overrides. Semantic grounding and context-aware bias assessment can be compared with the current structural checks through the planned ablations. Video, biometric inference and model training are outside this paper's scope.
+
+\section{Conclusion}
+
+TrustInterview AI proposes a Zero Trust Architecture in which access assurance and AI output assurance enforce separate policies at interview-workflow boundaries. Bias-risk and grounding evidence inform release, review or abstention decisions rather than being presented as guarantees of fairness or factual truth. A prototype traceability analysis identifies enforcement gaps, and an isolated reference service provides reproducible preliminary checks of selected controls. Seventeen automated tests passed and fourteen contract fixtures matched their specifications, while known coverage limitations remain visible. These results support a limited implementation demonstration. Integration, independent annotation and live-model experiments are required before drawing conclusions about hiring fairness, hallucination reduction or operational performance.
+
+\section*{Acknowledgment}
+
+We thank Prof. Apoorva Chate for guidance throughout this project and the RV College of Engineering AI \& ML Department for providing computational resources.
+
+\begin{thebibliography}{99}
+
+\bibitem{rose2020zero}
+S. Rose, O. Borchert, S. Mitchell, and S. Connelly,
+``Zero Trust Architecture,''
+NIST Special Publication 800-207, Aug. 2020.
+
+\bibitem{chandramouli2023zero}
+R. Chandramouli and Z. Butcher,
+``A Zero Trust Architecture Model for Access Control in Cloud-Native Applications in Multi-Cloud Environments,''
+NIST Special Publication 800-207A, Sep. 2023, doi: 10.6028/NIST.SP.800-207A.
+
+\bibitem{nist2024genai}
+National Institute of Standards and Technology,
+``Artificial Intelligence Risk Management Framework: Generative Artificial Intelligence Profile,''
+NIST AI 600-1, Jul. 2024, doi: 10.6028/NIST.AI.600-1.
+
+\bibitem{eu2024aiact}
+European Parliament and Council of the European Union,
+``Regulation (EU) 2024/1689 laying down harmonised rules on artificial intelligence,''
+\emph{Official Journal of the European Union}, Jul. 2024.
+
+\bibitem{parasurama2022gendered}
+P. Parasurama and J. Sedoc,
+``Gendered Language in Resumes and its Implications for Algorithmic Bias in Hiring,''
+in \emph{Proc. 4th Workshop on Gender Bias in Natural Language Processing}, 2022, p. 74, doi: 10.18653/v1/2022.gebnlp-1.7.
+
+\bibitem{an2024discriminate}
+H. An, C. Acquaye, C. Wang, Z. Li, and R. Rudinger,
+``Do Large Language Models Discriminate in Hiring Decisions on the Basis of Race, Ethnicity, and Gender?''
+in \emph{Proc. 62nd Annual Meeting of the Association for Computational Linguistics, Short Papers}, 2024, pp. 386--397, doi: 10.18653/v1/2024.acl-short.37.
+
+\bibitem{nghiem2024name}
+H. Nghiem, J. Prindle, J. Zhao, and H. Daum\'{e} III,
+``You Gotta be a Doctor, Lin: An Investigation of Name-Based Bias of Large Language Models in Employment Recommendations,''
+in \emph{Proc. 2024 Conf. Empirical Methods in Natural Language Processing}, 2024, pp. 7268--7287, doi: 10.18653/v1/2024.emnlp-main.413.
+
+\bibitem{wang2024jobfair}
+Z. Wang \emph{et al.},
+``JobFair: A Framework for Benchmarking Gender Hiring Bias in Large Language Models,''
+in \emph{Findings of the Association for Computational Linguistics: EMNLP 2024}, 2024, pp. 3227--3246, doi: 10.18653/v1/2024.findings-emnlp.184.
+
+\bibitem{iso2025bias}
+H. Iso, P. Pezeshkpour, N. Bhutani, and E. Hruschka,
+``Evaluating Bias in LLMs for Job-Resume Matching: Gender, Race, and Education,''
+in \emph{Proc. 2025 Conf. of the Nations of the Americas Chapter of the Association for Computational Linguistics, Industry Track}, 2025, pp. 672--683, doi: 10.18653/v1/2025.naacl-industry.55.
+
+\bibitem{zhang2025sirens}
+Y. Zhang \emph{et al.},
+``Siren's Song in the AI Ocean: A Survey on Hallucination in Large Language Models,''
+\emph{Computational Linguistics}, vol. 51, no. 4, pp. 1373--1418, 2025, doi: 10.1162/coli.a.16.
+
+\bibitem{manakul2023selfcheck}
+P. Manakul, A. Liusie, and M. Gales,
+``SelfCheckGPT: Zero-Resource Black-Box Hallucination Detection for Generative Large Language Models,''
+in \emph{Proc. 2023 Conf. Empirical Methods in Natural Language Processing}, 2023, pp. 9004--9017, doi: 10.18653/v1/2023.emnlp-main.557.
+
+\bibitem{baxi2026prompt}
+P. Baxi, J. Xu, J. Y. Jiang, and S. Jasin,
+``Prompt Injection in Automated R\'{e}sum\'{e} Screening with Large Language Models: Single and Multi-Injection Settings,''
+in \emph{Findings of the Association for Computational Linguistics: ACL 2026}, 2026, pp. 2942--2953, doi: 10.18653/v1/2026.findings-acl.142.
+
+\bibitem{augey2026rapids}
+Y. Augey, J. H. Levy, and A. Akdemir,
+``RAPIDS: Resume Attack Prompt Injection Detection at Scale,''
+in \emph{Proc. 64th Annual Meeting of the Association for Computational Linguistics, Industry Track}, 2026, pp. 1848--1865, doi: 10.18653/v1/2026.acl-industry.127.
+
+\bibitem{owasp2025llm}
+OWASP Foundation,
+``OWASP Top 10 for LLM Applications 2025,''
+OWASP GenAI Security Project, 2025. [Online]. Available: https://genai.owasp.org/llm-top-10/
+
+
+\bibitem{google_oidc}
+Google,
+``OpenID Connect,''
+Google Identity documentation. [Online]. Available: https://developers.google.com/identity/openid-connect/openid-connect. Accessed: Oct. 11, 2026.
+
+\end{thebibliography}
+
+\end{document}
+

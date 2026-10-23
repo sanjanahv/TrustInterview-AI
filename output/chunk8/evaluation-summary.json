@@ -1,0 +1,76 @@
+{
+  "createdAt": "2026-10-10T15:39:30.095Z",
+  "policy": "research-0.1",
+  "baseCommit": "bde47e9c9863eb47acd57b025ecc75b9c3a72aed",
+  "sourceManifest": {
+    "core.cjs": "22769230a75c05c7ac00bb2e2b0e4fc4d2ea2de823bf95bdeb8858543ba00f98",
+    "server.cjs": "182b6eadbb8d1e3edc1b0594bab266b0d4df299843f76d0005bde05c36901c61",
+    "evaluate.cjs": "82b5fab97e532733d81ab7b523217dd3c3329fda98ca841ea194a587896e19d0",
+    "test/controls.test.cjs": "52edbb4db02b7271827afab6a0b869b642895e085d2a42acb5f808d4c51fd79a",
+    "fixtures/output-contract.json": "48f502a017987f81d7cb62e7234ea8baa3ef5b00300902ac8bf4e90ad8e3b4fb",
+    "package.json": "6ffbcb517c8a23f7f3d617283770c8aefeef9d104fb31f382b5b7dda3f45ebdc"
+  },
+  "environment": {
+    "node": "v22.20.0",
+    "platform": "win32",
+    "release": "10.0.26200",
+    "architecture": "x64",
+    "cpu": "11th Gen Intel(R) Core(TM) i5-1155G7 @ 2.50GHz"
+  },
+  "design": {
+    "provider": "offline fixture",
+    "humanAnnotations": false,
+    "liveModelCalls": 0,
+    "warmupRounds": 50,
+    "measuredRounds": 1000,
+    "seed": 20261010,
+    "concurrency": 1,
+    "audit": "in-memory hash chain",
+    "timingScope": "synchronous control components; excludes HTTP, disk writes, model calls and review"
+  },
+  "contractFixtures": {
+    "count": 14,
+    "specificationMatches": 14,
+    "note": "Expected outcomes are policy specifications, not human-annotated fairness or hallucination ground truth."
+  },
+  "deterministicCounterfactualSmoke": {
+    "count": 8,
+    "distinctScores": [
+      100
+    ],
+    "note": "Only the fixed keyword scorer was tested; this is not evidence of demographic fairness."
+  },
+  "timings": {
+    "C0": {
+      "n": 1000,
+      "p50Ms": 0.001300000000000523,
+      "p95Ms": 0.0027000000000043656,
+      "p99Ms": 0.005299999999991201
+    },
+    "C1": {
+      "n": 1000,
+      "p50Ms": 0.005200000000002092,
+      "p95Ms": 0.011600000000001387,
+      "p99Ms": 0.028300000000001546
+    },
+    "C2": {
+      "n": 1000,
+      "p50Ms": 0.002899999999996794,
+      "p95Ms": 0.006500000000002615,
+      "p99Ms": 0.02400000000000091
+    },
+    "C3": {
+      "n": 1000,
+      "p50Ms": 0.015999999999991132,
+      "p95Ms": 0.03860000000000241,
+      "p99Ms": 0.14580000000000837
+    }
+  },
+  "limitations": [
+    "No live LLM or semantic grounding evaluation.",
+    "No human-labelled discrimination corpus.",
+    "Quoted falsehoods and indirect prompt attacks can pass.",
+    "Legacy API and UI remain outside this reference service.",
+    "No distributed or persistent assessment store; no production load claim."
+  ]
+}

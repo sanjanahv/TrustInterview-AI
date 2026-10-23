@@ -1,0 +1,16 @@
+{
+  "source": "paper\\TrustInterview_IEEE_final.tex",
+  "pdf": "output\\pdf\\TrustInterview_IEEE_final.pdf",
+  "pages": 8,
+  "bibliographyEntries": 20,
+  "backendTestsPassed": 91,
+  "authoredCurrentPolicyProbes": 9,
+  "liveModelCalls": 0,
+  "independentHumanLabels": 0,
+  "sha256": {
+    "paper\\TrustInterview_IEEE_final.tex": "aec7ce7ad8a0ade47d56015d75987b837f351ea702ff3c2ebea988a467f78cb3",
+    "output\\pdf\\TrustInterview_IEEE_final.pdf": "7ce4a753e1d87f13818f09f34ffc6392b9bd86d310af40f3ead846f9fb4cf07a",
+    "output\\chunk30\\backend-tests.xml": "79587bc1cc98f9ce9f807e6abaed3bde378e89eac47bf3975c0397078e06abe7",
+    "output\\chunk28\\current-policy-probes.json": "4187731d67f4b5423e4464ab05604e831e4efed63a2730e29e80a583c3bb9939"
+  }
+}

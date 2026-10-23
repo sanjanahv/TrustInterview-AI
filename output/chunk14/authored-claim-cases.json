@@ -1,0 +1,311 @@
+{
+  "purpose": "Authored behavior examples, not independent annotations or an accuracy estimate",
+  "records": [
+    {
+      "id": "agreement",
+      "answer": "I have used Python.",
+      "resume": "I have used Python.",
+      "expected": "source_supported",
+      "result": {
+        "version": "explicit-use-v1",
+        "scope": "explicit_first_person_technology_use",
+        "qualificationVerification": "not_verified",
+        "claims": [
+          {
+            "claimId": "claim-1",
+            "quote": "I have used Python.",
+            "technology": "python",
+            "polarity": "positive",
+            "label": "source_supported",
+            "reason": "explicit_polarity_comparison",
+            "evidence": [
+              {
+                "evidenceId": "resume",
+                "quote": "I have used Python."
+              }
+            ]
+          }
+        ]
+      },
+      "matchesSpecification": true
+    },
+    {
+      "id": "negation",
+      "answer": "I have used Python.",
+      "resume": "I have not used Python.",
+      "expected": "source_contradicted",
+      "result": {
+        "version": "explicit-use-v1",
+        "scope": "explicit_first_person_technology_use",
+        "qualificationVerification": "not_verified",
+        "claims": [
+          {
+            "claimId": "claim-1",
+            "quote": "I have used Python.",
+            "technology": "python",
+            "polarity": "positive",
+            "label": "source_contradicted",
+            "reason": "explicit_polarity_comparison",
+            "evidence": [
+              {
+                "evidenceId": "resume",
+                "quote": "I have not used Python."
+              }
+            ]
+          }
+        ]
+      },
+      "matchesSpecification": true
+    },
+    {
+      "id": "negative_agreement",
+      "answer": "I have not used Python.",
+      "resume": "I have not used Python.",
+      "expected": "source_supported",
+      "result": {
+        "version": "explicit-use-v1",
+        "scope": "explicit_first_person_technology_use",
+        "qualificationVerification": "not_verified",
+        "claims": [
+          {
+            "claimId": "claim-1",
+            "quote": "I have not used Python.",
+            "technology": "python",
+            "polarity": "negative",
+            "label": "source_supported",
+            "reason": "explicit_polarity_comparison",
+            "evidence": [
+              {
+                "evidenceId": "resume",
+                "quote": "I have not used Python."
+              }
+            ]
+          }
+        ]
+      },
+      "matchesSpecification": true
+    },
+    {
+      "id": "missing",
+      "answer": "I have used Python.",
+      "resume": null,
+      "expected": "undetermined",
+      "result": {
+        "version": "explicit-use-v1",
+        "scope": "explicit_first_person_technology_use",
+        "qualificationVerification": "not_verified",
+        "claims": [
+          {
+            "claimId": "claim-1",
+            "quote": "I have used Python.",
+            "technology": "python",
+            "polarity": "positive",
+            "label": "undetermined",
+            "reason": "missing_resume",
+            "evidence": []
+          }
+        ]
+      },
+      "matchesSpecification": true
+    },
+    {
+      "id": "keyword_only",
+      "answer": "I have used Python.",
+      "resume": "Skills: Python",
+      "expected": "undetermined",
+      "result": {
+        "version": "explicit-use-v1",
+        "scope": "explicit_first_person_technology_use",
+        "qualificationVerification": "not_verified",
+        "claims": [
+          {
+            "claimId": "claim-1",
+            "quote": "I have used Python.",
+            "technology": "python",
+            "polarity": "positive",
+            "label": "undetermined",
+            "reason": "no_explicit_source_statement",
+            "evidence": []
+          }
+        ]
+      },
+      "matchesSpecification": true
+    },
+    {
+      "id": "conflicting",
+      "answer": "I have used Python.",
+      "resume": "I have used Python.\nI have not used Python.",
+      "expected": "undetermined",
+      "result": {
+        "version": "explicit-use-v1",
+        "scope": "explicit_first_person_technology_use",
+        "qualificationVerification": "not_verified",
+        "claims": [
+          {
+            "claimId": "claim-1",
+            "quote": "I have used Python.",
+            "technology": "python",
+            "polarity": "positive",
+            "label": "undetermined",
+            "reason": "conflicting_source_statements",
+            "evidence": [
+              {
+                "evidenceId": "resume",
+                "quote": "I have used Python."
+              },
+              {
+                "evidenceId": "resume",
+                "quote": "I have not used Python."
+              }
+            ]
+          }
+        ]
+      },
+      "matchesSpecification": true
+    },
+    {
+      "id": "alias",
+      "answer": "I have used JS.",
+      "resume": "I have used JavaScript.",
+      "expected": "source_supported",
+      "result": {
+        "version": "explicit-use-v1",
+        "scope": "explicit_first_person_technology_use",
+        "qualificationVerification": "not_verified",
+        "claims": [
+          {
+            "claimId": "claim-1",
+            "quote": "I have used JS.",
+            "technology": "javascript",
+            "polarity": "positive",
+            "label": "source_supported",
+            "reason": "explicit_polarity_comparison",
+            "evidence": [
+              {
+                "evidenceId": "resume",
+                "quote": "I have used JavaScript."
+              }
+            ]
+          }
+        ]
+      },
+      "matchesSpecification": true
+    },
+    {
+      "id": "punctuation",
+      "answer": "I have used C++.",
+      "resume": "I have used cpp.",
+      "expected": "source_supported",
+      "result": {
+        "version": "explicit-use-v1",
+        "scope": "explicit_first_person_technology_use",
+        "qualificationVerification": "not_verified",
+        "claims": [
+          {
+            "claimId": "claim-1",
+            "quote": "I have used C++.",
+            "technology": "cpp",
+            "polarity": "positive",
+            "label": "source_supported",
+            "reason": "explicit_polarity_comparison",
+            "evidence": [
+              {
+                "evidenceId": "resume",
+                "quote": "I have used cpp."
+              }
+            ]
+          }
+        ]
+      },
+      "matchesSpecification": true
+    },
+    {
+      "id": "substring",
+      "answer": "I have used Java.",
+      "resume": "I have used JavaScript.",
+      "expected": "undetermined",
+      "result": {
+        "version": "explicit-use-v1",
+        "scope": "explicit_first_person_technology_use",
+        "qualificationVerification": "not_verified",
+        "claims": [
+          {
+            "claimId": "claim-1",
+            "quote": "I have used Java.",
+            "technology": "java",
+            "polarity": "positive",
+            "label": "undetermined",
+            "reason": "no_explicit_source_statement",
+            "evidence": []
+          }
+        ]
+      },
+      "matchesSpecification": true
+    },
+    {
+      "id": "condition",
+      "answer": "I have used Python.",
+      "resume": "If I have used Python.",
+      "expected": "undetermined",
+      "result": {
+        "version": "explicit-use-v1",
+        "scope": "explicit_first_person_technology_use",
+        "qualificationVerification": "not_verified",
+        "claims": [
+          {
+            "claimId": "claim-1",
+            "quote": "I have used Python.",
+            "technology": "python",
+            "polarity": "positive",
+            "label": "undetermined",
+            "reason": "no_explicit_source_statement",
+            "evidence": []
+          }
+        ]
+      },
+      "matchesSpecification": true
+    },
+    {
+      "id": "duration",
+      "answer": "I have used Python for ten years.",
+      "resume": "I have used Python for ten years.",
+      "expected": "undetermined",
+      "result": {
+        "version": "explicit-use-v1",
+        "scope": "explicit_first_person_technology_use",
+        "qualificationVerification": "not_verified",
+        "claims": [
+          {
+            "claimId": "claim-1",
+            "quote": "I have used Python for ten years.",
+            "label": "undetermined",
+            "reason": "outside_controlled_language",
+            "evidence": []
+          }
+        ]
+      },
+      "matchesSpecification": true
+    },
+    {
+      "id": "unsupported_technology",
+      "answer": "I have used Rust.",
+      "resume": "I have used Rust.",
+      "expected": "undetermined",
+      "result": {
+        "version": "explicit-use-v1",
+        "scope": "explicit_first_person_technology_use",
+        "qualificationVerification": "not_verified",
+        "claims": [
+          {
+            "claimId": "claim-1",
+            "quote": "I have used Rust.",
+            "label": "undetermined",
+            "reason": "outside_controlled_language",
+            "evidence": []
+          }
+        ]
+      },
+      "matchesSpecification": true
+    }
+  ]
+}

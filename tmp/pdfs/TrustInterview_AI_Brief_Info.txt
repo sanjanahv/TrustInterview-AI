@@ -1,0 +1,53 @@
+PAGE 1
+SYSTEM BRIEF & SECURITY SPECIFICATIONS
+TrustInterview AI Platform
+A Zero Trust Placement & Intelligent Interview Assessment Sandbox
+1. System Architecture & Operation
+TrustInterview AI operates as a split-architecture system optimized for campus placement drives. The frontend
+provides a responsive experience, while the backend implements security controls.
+Frontend Operations (React / Vite)
+•  Candidate Sandbox: Allows students to upload resumes, parse credentials, verify CGPA eligibility, and take 
+real-time assessments with structured prompt-driven questions.
+•  Recruiter Dashboard: A segregated command console for placement drive coordinators. Dashboards are 
+isolated per recruiter company, displaying candidates registered or scored for that company.
+Backend Operations (Node.js / Express)
+•  Policy Decision Point (PDP): Intercepts all incoming HTTP requests to evaluate authentication state, 
+session TTL, and role-based permissions.
+•  Assessment & Grading Roster: Orchestrates API calls to Gemini & OpenAI models. Results are compiled, 
+graded, and stored locally in the ledger.
+2. Bias & Fairness Safeguards (ZTA Layer 9)
+To ensure recruitment decisions are based entirely on technical and behavioral merits, the system employs
+proactive demographic and cognitive protection:
+•  Dynamic Name Origin Filter: Extracts the candidate's first and last name upon session initialization and 
+registers them as negative filters. The AI evaluator is strictly forbidden from referencing the student's name in 
+reviews.
+•  Demographic Redaction: Lexical filters actively block references to Age, Gender, Race, Religion, Caste, 
+Nationality, and Marital Status.
+•  Institutional Prestige Neutrality: Filters terms like 'Tier-1', 'Ivy League', or 'elite college' from candidate 
+profile inputs to ensure the grading engine remains institutionally unbiased.
+•  Bias Scanner Audits: A lexical scanner runs on all AI outputs. If the evaluator attempts to address the 
+candidate by name or references a protected category, the system flags a compliance violation.
+3. Anti-Hallucination & Factuality Modules (ZTA Layer 13)
+
+
+PAGE 2
+The system guards against technical exaggeration and invalid claims through automated syntax audits and
+resume validation checks:
+•  Version & Jargon Validation: Scans student answers and resumes for non-existent tech stacks or version 
+anomalies (e.g. Python 4.0, React v25, HTML6).
+•  Metric Veracity Checks: Flags impossible project metrics (e.g. 'reduced latency by 120%' or 'handled 10 
+trillion requests/sec on a Raspberry Pi').
+•  Resume Mismatch Scanner: Identifies technology stack mismatches between the interview transcript and 
+the uploaded CV, alerting recruiters of gaps.
+•  Roster Compliance Indicators: Displays 'VERIFICATION FAILED' or '' ZTA SECURED' based on the 
+computed compliance and hallucination risk profile.
+
+
+PAGE 3
+TrustInterview AI — RVCE Bengaluru Placements Cell
+Page 1 of 2
+
+
+PAGE 4
+TrustInterview AI — RVCE Bengaluru Placements Cell
+Page 2 of 2

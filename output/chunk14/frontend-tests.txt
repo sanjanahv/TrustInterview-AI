@@ -1,0 +1,11 @@
+PASS src/App.test.js (13.444 s)
+  √ candidate sends only an answer and held results do not expose scores (1660 ms)
+  √ reviewer records a decision and reason through the controlled endpoint (358 ms)
+  √ Google mode exposes provider sign-in and has no demo credential fallback (89 ms)
+  √ provider callback redeems an HTTP-only handoff without a bearer token in the URL (122 ms)
+
+Test Suites: 1 passed, 1 total
+Tests:       4 passed, 4 total
+Snapshots:   0 total
+Time:        23.222 s
+Ran all test suites.

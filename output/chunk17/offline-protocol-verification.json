@@ -1,0 +1,17 @@
+{
+  "validation": "passed",
+  "records": 48,
+  "groundingRecords": 24,
+  "pairedRecords": 24,
+  "liveModelCalls": 0,
+  "humanLabels": 0,
+  "efficacyAnalysisPerformed": false,
+  "checks": [
+    "record_counts",
+    "complete_case_coverage",
+    "raw_artifact_hashes",
+    "importer_metadata",
+    "cross_language_input_hashes",
+    "offline_mode"
+  ]
+}

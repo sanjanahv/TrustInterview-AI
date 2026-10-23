@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<testsuites>
+	<testcase name="unprovisioned identities and weak/default credentials are rejected" time="0.030772" classname="test"/>
+	<testcase name="opaque sessions expire and are revoked server-side" time="0.014240" classname="test"/>
+	<testcase name="login rate limit applies even with invalid credentials" time="0.006017" classname="test"/>
+	<testcase name="tenant, ownership, and role enforced independently" time="0.010785" classname="test"/>
+	<testcase name="client scores, roles, and additional answer fields cannot change server scoring" time="0.017160" classname="test"/>
+	<testcase name="concurrent submissions cannot overwrite authoritative assessment" time="0.005580" classname="test"/>
+	<testcase name="fabricated evidence or extra model score fails closed" time="0.005971" classname="test"/>
+	<testcase name="sensitive output held until an authorized reviewer records a reason" time="0.004467" classname="test"/>
+	<testcase name="review cannot override unsupported grounding and rejection withholds scores" time="0.008244" classname="test"/>
+	<testcase name="provider failure and timeout abstain without publishing zero scores" time="0.057429" classname="test"/>
+	<testcase name="revocation during provider execution prevents release" time="0.003640" classname="test"/>
+	<testcase name="cache contexts separate candidates and sessions; logout removes entries" time="0.003428" classname="test"/>
+	<testcase name="hash chain detects altered events; audit excludes credentials and answers" time="0.002921" classname="test"/>
+	<testcase name="bias trigger uses word boundaries and remains a review heuristic" time="0.000871" classname="test"/>
+	<testcase name="indirect prompt instruction cannot alter the server-owned score" time="0.001720" classname="test"/>
+	<testcase name="audit storage failure prevents release of a scored response" time="0.002346" classname="test"/>
+	<testcase name="HTTP exact routes, authorization, and schema denial are enforced" time="0.766815" classname="test"/>
+	<testcase name="integrated API holds output, isolates reviewers, and releases only after authorized review" time="0.171123" classname="test"/>
+	<!-- tests 18 -->
+	<!-- suites 0 -->
+	<!-- pass 18 -->
+	<!-- fail 0 -->
+	<!-- cancelled 0 -->
+	<!-- skipped 0 -->
+	<!-- todo 0 -->
+	<!-- duration_ms 1920.1526 -->
+</testsuites>

@@ -1,0 +1,10 @@
+{
+  "clientId": "REPLACE_LOCALLY.apps.googleusercontent.com",
+  "clientSecret": "REPLACE_LOCALLY_WITH_CLIENT_SECRET",
+  "frontendOrigin": "http://localhost:3000",
+  "redirectUri": "http://localhost:3000/api/research/oauth/google/callback",
+  "bindings": [
+    { "subject": "REPLACE_WITH_VERIFIED_GOOGLE_SUBJECT", "id": "candidate-1", "tenant": "faculty-study", "role": "candidate" },
+    { "subject": "REPLACE_WITH_ANOTHER_VERIFIED_GOOGLE_SUBJECT", "id": "reviewer-1", "tenant": "faculty-study", "role": "reviewer" }
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "exitCode": 0,
+  "python": "3.11.9 (tags/v3.11.9:de54cf5, Apr  2 2024, 10:12:12) [MSC v.1938 64 bit (AMD64)]",
+  "purpose": "Artificial schema/arithmetic fixtures; not human annotations or efficacy results",
+  "completedHumanAnnotations": 0,
+  "liveModelCalls": 0,
+  "sourceSha256": {
+    "annotation_tools.py": "8b16ebaa886a5eaf21cf26ce2142169c59c6b542046c4749ae503268ed667224",
+    "test_annotation_tools.py": "a6a02801cdf1338b682eb5b3a20b37a5d4a7ac7ef4fab2f53162635e72df58a6"
+  }
+}

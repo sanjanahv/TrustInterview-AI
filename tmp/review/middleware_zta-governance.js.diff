@@ -1,0 +1,13 @@
+--- INTERVIEW-BOT/middleware/zta-governance.js
+
++++ TrustInterview-AI/middleware/zta-governance.js
+
+@@ -41,6 +41,7 @@
+
+ }
+ 
+ function governanceMiddleware(req, res, next) {
++  if (req.method === "OPTIONS") return next();
+   if (req.path === "/api/auth/session" || req.path === "/api/health") return next();
+ 
+   // Only inspect POST / PUT bodies

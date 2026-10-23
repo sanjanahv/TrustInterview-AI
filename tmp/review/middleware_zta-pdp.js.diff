@@ -1,0 +1,39 @@
+--- INTERVIEW-BOT/middleware/zta-pdp.js
+
++++ TrustInterview-AI/middleware/zta-pdp.js
+
+@@ -8,12 +8,18 @@
+
+ 
+ // Policy table: route prefix → rules
+ const ROUTE_POLICIES = {
+-  "/api/auth":       { requireSession: false, allowedMethods: ["POST", "GET"] },
+-  "/api/health":     { requireSession: false, allowedMethods: ["GET"] },
+-  "/api/zta-status": { requireSession: false, allowedMethods: ["GET"] },
+-  "/api/resume":     { requireSession: true,  allowedMethods: ["POST"], maxSessionAgeMs: 60 * 60 * 1000 },
+-  "/api/interview":  { requireSession: true,  allowedMethods: ["POST"], maxSessionAgeMs: 60 * 60 * 1000 },
+-  "/api/evaluate":   { requireSession: true,  allowedMethods: ["POST"], maxSessionAgeMs: 60 * 60 * 1000 },
++  "/api/auth":             { requireSession: false, allowedMethods: ["POST", "GET"] },
++  "/api/health":           { requireSession: false, allowedMethods: ["GET"] },
++  "/api/zta-status/block": { requireSession: false, allowedMethods: ["POST"] },
++  "/api/zta-status/reset": { requireSession: false, allowedMethods: ["POST"] },
++  "/api/zta-status":       { requireSession: false, allowedMethods: ["GET"] },
++  "/api/resume":           { requireSession: true,  allowedMethods: ["POST"], maxSessionAgeMs: 60 * 60 * 1000 },
++  "/api/interview/leaderboard": { requireSession: false, allowedMethods: ["GET"] },
++  "/api/interview/company-settings": { requireSession: false, allowedMethods: ["GET", "POST"] },
++  "/api/interview/tickets/resolve": { requireSession: false, allowedMethods: ["POST"] },
++  "/api/interview/tickets": { requireSession: false, allowedMethods: ["GET", "POST"] },
++  "/api/interview":        { requireSession: true,  allowedMethods: ["POST"], maxSessionAgeMs: 60 * 60 * 1000 },
++  "/api/evaluate":         { requireSession: true,  allowedMethods: ["POST"], maxSessionAgeMs: 60 * 60 * 1000 },
+ };
+ 
+ function matchPolicy(path) {
+@@ -24,6 +30,7 @@
+
+ }
+ 
+ function pdpMiddleware(req, res, next) {
++  if (req.method === "OPTIONS") return next();
+   const policy = matchPolicy(req.path);
+ 
+   // 1 — No policy = no access (default-deny)

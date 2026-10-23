@@ -1,0 +1,13 @@
+--- INTERVIEW-BOT/middleware/zta-device.js
+
++++ TrustInterview-AI/middleware/zta-device.js
+
+@@ -15,6 +15,7 @@
+
+ const REQUIRED_HEADERS = ["user-agent", "accept"];
+ 
+ function deviceMiddleware(req, res, next) {
++  if (req.method === "OPTIONS") return next();
+   const ua = req.headers["user-agent"] || "";
+ 
+   // 1 — Block known scanner / attack tool user-agents

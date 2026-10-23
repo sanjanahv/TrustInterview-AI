@@ -1,0 +1,9 @@
+PASS src/App.test.js (18.932 s)
+  √ candidate sends only an answer and held results do not expose scores (1947 ms)
+  √ reviewer records a decision and reason through the controlled endpoint (593 ms)
+
+Test Suites: 1 passed, 1 total
+Tests:       2 passed, 2 total
+Snapshots:   0 total
+Time:        28.184 s
+Ran all test suites.

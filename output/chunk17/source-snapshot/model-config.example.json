@@ -1,0 +1,7 @@
+{
+  "model": "REPLACE_WITH_AVAILABLE_GEMINI_MODEL_ID",
+  "apiKey": "REPLACE_WITH_PRIVATE_API_KEY",
+  "timeoutMs": 15000,
+  "maxOutputTokens": 1024,
+  "temperature": 0
+}

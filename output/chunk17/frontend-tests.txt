@@ -1,0 +1,12 @@
+PASS src/App.test.js (5.776 s)
+  √ configured live feedback is identified without presenting it as an offline fixture (136 ms)
+  √ candidate sends only an answer and held results do not expose scores (314 ms)
+  √ reviewer records a decision and reason through the controlled endpoint (181 ms)
+  √ Google mode exposes provider sign-in and has no demo credential fallback (33 ms)
+  √ provider callback redeems an HTTP-only handoff without a bearer token in the URL (33 ms)
+
+Test Suites: 1 passed, 1 total
+Tests:       5 passed, 5 total
+Snapshots:   0 total
+Time:        8.978 s, estimated 14 s
+Ran all test suites.

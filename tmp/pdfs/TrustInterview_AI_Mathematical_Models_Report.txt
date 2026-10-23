@@ -1,0 +1,55 @@
+PAGE 1
+MATHEMATICAL MODELS & METRICS SPECIFICATIONS
+TrustInterview AI Math Engine
+An Analysis of Cumulative, Aggregated, and Normalized Scoring Systems
+1. Cumulative Running Average Model
+To optimize database read/write cycles, the system computes the candidate's historical average score incrementally
+upon completing each new session. This eliminates the need to load and sum every past session score array on
+simple score submissions.
+  Formula:   An = [ A(n-1) * (n - 1) + Sn ] / n
+Variable Definitions
+•  An: The updated cumulative average score recorded in the database after the current session.
+•  A(n-1): The previously saved running average score (re-used as the baseline aggregate).
+•  n: The total count of graded sessions completed by the candidate including the current run.
+•  Sn: The raw, out-of-10 average score evaluated by the LLM for the current interview session.
+Algorithm & Code Implementation
+During the score submission callback, the previous average is retrieved and factored into the new session count
+weight. This provides O(1) time complexity calculations.
+// question-ledger.js:recordScore
+ledger[key].totalSessions = (ledger[key].totalSessions || 0) + 1;
+const sessions = ledger[key].totalSessions;
+const prev = ledger[key].avgScore || 0;
+ledger[key].avgScore = parseFloat(((prev * (sessions - 1) + score) / 
+sessions).toFixed(2));
+2. Segregated Data Aggregation Model
+For multi-tenant recruiter isolation (e.g. Google vs. Microsoft dashboards), the system moves from unified averages
+to segregated sub-aggregates. The backend filters the session array by the active tenant ID and applies standard
+statistical models.
+  Arithmetic Mean:   Average = (Sum of Si for i = 1 to k) / k
+  Maximum Value:   Best Score = Max(S1, S2, ..., Sk)
+
+
+PAGE 2
+Variable Definitions
+•  k: The total number of interview sessions completed specifically for the queried company.
+•  Si: The score of the i-th session belonging to the target company filter.
+Usage & Security Isolation
+When a Google Recruiter logs in, only Google sessions (k) are loaded. Candidate scores are isolated, preventing
+other company campaign results from leaking onto the current dashboard.
+3. Linear Normalization Model
+Raw interview scores are outputted by the grading agents out of 10. To maintain a standardized, recruiter-friendly
+scoring experience, these values undergo a linear percentage mapping on frontend dashboards.
+  Formula:   Percentage = (Score / 10) * 100% = Score * 10%
+Usage
+Normalizes raw values like 8.2 to 82% dynamically. This maintains grade visibility across proctoring, average stats
+cards, and selection badges.
+
+
+PAGE 3
+TrustInterview AI — RVCE Bengaluru Placements Cell
+Page 1 of 2
+
+
+PAGE 4
+TrustInterview AI — RVCE Bengaluru Placements Cell
+Page 2 of 2

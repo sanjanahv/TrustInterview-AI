@@ -1,0 +1,26 @@
+{
+  "recordedAt": "2026-10-10T18:56:42.071Z",
+  "node": "v22.20.0",
+  "exitCode": 0,
+  "tests": 27,
+  "passed": 27,
+  "failed": 0,
+  "sources": {
+    "core.cjs": "b2d3f48ac182f0e98a43078a9ecb54365d424c595f1aa32b4cb55198ba41ff8b",
+    "assessment-store.cjs": "1afb2fac46270ef6d10ee0f003c75f7cc8b1860b30835c7a630c990778272f16",
+    "server.cjs": "246543dd97ce22a576b1987d3db771e193f63c8d3c63e015ea4c676e8b66d099",
+    "package.json": "fd5cb6f9a7aade34b2e50d68ac630bf0a9822ca239f42a76e3b42cea882ab6bd",
+    "README.md": "2653c5acf8003b4776b680b29d8d04bb8be349a8205e1d52b53dbc2dca37429a",
+    "test/controls.test.cjs": "4dab5ab73370ac64ef6ddb32cf1d9b75d297a61017f408747cd1ecb9f57eb44b",
+    "test/persistence.test.cjs": "452d3d8df01f1b28b685ee4ce7eccb2b19e4a6f50a992d71671285f6c9488931",
+    "test/http-persistence.test.cjs": "b6ba9c1607bc5771395e08aa3598477f4a301842b7ede9e3f1d78e307c78ce32",
+    "test/fixtures/crash.cjs": "51de96e372c70f78bfc3499d40a9a3df5ae67f2f89e8837e0cc7d0a41aa92fc9"
+  },
+  "limitations": [
+    "Offline provider and keyword rubric.",
+    "No verified external identity.",
+    "Single-process database; no distributed scaling.",
+    "No storage encryption or independent audit anchoring.",
+    "No real candidate study."
+  ]
+}

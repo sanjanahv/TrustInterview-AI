@@ -1,0 +1,33 @@
+{
+  "recordedAt": "2026-10-10T21:20:42.023Z",
+  "node": "v22.20.0",
+  "googleAuthLibrary": "11.2.0",
+  "exitCode": 0,
+  "tests": 42,
+  "passed": 42,
+  "failed": 0,
+  "liveGoogleLogins": 0,
+  "liveModelCalls": 0,
+  "providerTestMethod": "Local RSA assertions verified by installed SDK; code exchange and key retrieval fixtures",
+  "sources": {
+    "core.cjs": "052b1b94cf32c0e5f68eccf4e787bbeae85abbe6ecd0bd2b4d39acf66df7efab",
+    "server.cjs": "84d89063d4c554e668d9349356b6fb562eafb840e251a0169d3251eccd0c9117",
+    "assessment-store.cjs": "1afb2fac46270ef6d10ee0f003c75f7cc8b1860b30835c7a630c990778272f16",
+    "google-identity.cjs": "bada5911937da8401b1fa9eb0a21e4bb3e12df302449cfdc8930503b32ea24b9",
+    "package.json": "21bcc132a378a766207cad5c6560fe4f3d8f4cd25de419d4f5c7db438c2a0784",
+    "package-lock.json": "4989350402d0a515651a2e4f4007fb257834c693c1b1359eebc690a35b6d3f90",
+    "google-config.example.json": "16ed0f24032613bb86fff9476239318cc13d354a0ff38950531045ca8794961e",
+    "README.md": "50a1fe0e43cdfc7904b604aad4868c6263305d6c184b7849d87dce61d3a8deb2",
+    "test/controls.test.cjs": "4dab5ab73370ac64ef6ddb32cf1d9b75d297a61017f408747cd1ecb9f57eb44b",
+    "test/persistence.test.cjs": "452d3d8df01f1b28b685ee4ce7eccb2b19e4a6f50a992d71671285f6c9488931",
+    "test/http-persistence.test.cjs": "b6ba9c1607bc5771395e08aa3598477f4a301842b7ede9e3f1d78e307c78ce32",
+    "test/google-identity.test.cjs": "b285a6aab12548262ae23ee6bfaf7ee753d9d99de22f7225d7bc1875330a7f21",
+    "test/fixtures/crash.cjs": "51de96e372c70f78bfc3499d40a9a3df5ae67f2f89e8837e0cc7d0a41aa92fc9"
+  },
+  "frontendSources": {
+    "App.js": "b2748ebee46dddd7505d1bb2f6242c7addf8bab42007b6c12a46e7de39ba5f10",
+    "App.test.js": "7ee8ee98dbe39c054e5472a0d65a5cc71e12093bffba190993b466d97153664e",
+    "pages/ResearchInterview.js": "76b3da7d0174971323eef65779bd1d0249e26a3e568bfcdb538ce9b6e3868771",
+    "pages/ResearchInterview.css": "516d6388d5292ab385c5e2329f2e82758d8790385ee5b20f072c54d68ab05387"
+  }
+}

@@ -1,0 +1,148 @@
+PAGE 1
+AI TALENT EVALUATION METRICS REPORT
+Anti-Hallucination & Bias
+Mitigation Architecture
+Detailed Technical Specifications of Zero Trust Layers 12 & 13
+DOCUMENT TYPE:
+  Detailed Architecture & Audit Report
+PUBLISHED:
+  July 31, 2026
+AUTHOR:
+  Antigravity AI Core Engineering
+
+
+PAGE 2
+1. ZTA Layer 12: AI Bias & Fairness Shield
+TrustInterview AI integrates a strict Bias & Fairness Shield to eliminate machine-learning bias and human
+evaluation variance. While Large Language Models (LLMs) can grade technical code accurately, their textual
+feedback often contains implicit demographic biases or PII correlation patterns that violate regional employment
+standards.
+Layer 12 introduces a runtime compliance scanner that inspects the generated interview question, the
+candidate's answer, and all AI-generated evaluation texts (summaries, strengths, improvements, and ideal
+answers) before they are stored in the database or exposed to recruiters.
+The 12 Base Demographics Checked:
+•  Age Protection: Blocks words such as 'age', 'how old', 'young', 'old', 'years old'.
+•  Gender Neutrality: Monitors terms relating to gender, including 'male', 'female', 'woman', 'man', 'maternity'.
+•  Race & Nationality: Detects ethnicity terms ('race', 'color', 'colour') and origin patterns.
+•  Disability & Health: Flags medical and capacity identifiers ('disability', 'disabled', 'handicap', 'illness').
+•  Religion & Caste: Blocks belief and social stratification references ('religion', 'church', 'mosque', 'caste').
+•  Social & Orientation: Monitors marital status, parental status, and sexual orientation phrases.
+A. Dynamic Candidate Name Protection (PII Sanitisation)
+To prevent the model from compiling score bias based on name origins (which correlates with gender or race),
+the system extracts the first and last name from the candidate's request. It dynamically registers these names
+as custom filters. If the LLM output addresses the candidate by name (e.g. 'Triveni' or 'Reddy') or refers to
+personal traits, the scanner triggers a violation.
+B. Compliance Scoring Logic
+The Compliance Score measures neutrality by tracking the ratio of clean categories to total monitored
+categories:
+Compliance Score % = (Passed Categories / Total Categories) * 100
+If the score falls below 100%, the evaluation is marked as containing flags and a warning is logged in the
+compliance ledger, forcing review.
+
+
+PAGE 3
+2. ZTA Layer 13: Fact Grounding & Anti-Hallucination
+Generative models can generate non-existent features or assume background knowledge not matching a
+candidate's background. Layer 13 operates dual-directional grounding checks to secure both the input
+(questions generated) and output (candidate evaluations).
+A. Bidirectional Grounding Architecture
+•  Question Grounding Audit: Extracts technical keywords from generated questions and matches them 
+against the parsed resume. If questions ask about technologies missing from the resume (e.g., asking about 
+Kubernetes when only Docker is listed), it blocks the question and defaults to grounded alternatives.
+•  Candidate Answer Auditing: Analyzes the text of candidate responses for technical consistency, metrics 
+reality, and resume-grounding. The engine grades responses based on truthfulness and flags potential 
+fabrications.
+B. Impossible Jargon and Metric Filters
+The system maintains static signature sets targeting common hallucinated features and exaggerated metrics:
+•  Impossible Technical Versions: Detects non-existent frameworks like 'Python 4.0', 'React v19.5+', 'HTML6', 
+'CSS4', and 'Node.js v50+', which indicate generated junk or candidate fabrications.
+•  Contradictory Jargon: Detects logically mutually exclusive patterns such as 'MongoDB SQL Join' or 
+'Relational NoSQL'.
+•  Impossible Metrics: Flags claims exceeding physical boundaries, including 'reducing latency/costs by 
+>100%', 'increasing uptime/reliability >100%', or claims of processing 'quadrillions of requests per second on a 
+single laptop'.
+C. Risk Score and Truthfulness Grading
+The system computes a Risk Score based on identified violation severities:
+•  HIGH Severity Flags (45 points): Triggered by impossible jargon, contradictions, and impossible metrics.
+•  MEDIUM Severity Flags (20 points): Triggered by 'Unverified Resume Claims' (e.g., claiming React 
+experience when React isn't in the CV).
+Grading Scale: 0% Risk = Verified Factual | <30% = Mostly Grounded | <65% = Unverified Claims | >=65% =
+High Hallucination Risk. A score >= 50% automatically fails the audit check.
+
+
+PAGE 4
+3. Data Schemas & API Integration
+The API response payloads communicate these metrics directly to the recruiter dashboard and compliance
+pipeline. Below is the structured JSON response contract emitted by the evaluation endpoint:
+{
+  "biasSummary": {
+    "filterName": "Employment Law Discrimination Bias Filter",
+    "candidateName": "Triveni Reddy",
+    "overallCompliance": 100,
+    "totalFlagsAcrossInterview": 0,
+    "triggeredCategories": {},
+    "status": "FULLY COMPLIANT",
+    "categoriesMonitored": 13,
+    "nameProtectionActive": true
+  },
+  "hallucinationSummary": {
+    "filterName": "ZTA-L13 Anti-Hallucination & Factuality Filter",
+    "avgHallucinationRisk": 20,
+    "totalFlags": 1,
+    "truthfulnessGrade": "Mostly Grounded",
+    "status": "UNVERIFIED CLAIMS DETECTED",
+    "questionBreakdown": [
+      {
+        "questionIndex": 1,
+        "skill": "React",
+        "hallucinationRiskScore": 20,
+        "truthfulnessGrade": "Mostly Grounded",
+        "flaggedCount": 1,
+        "flagged": [
+          {
+            "type": "Unverified Resume Claim",
+            "term": "redux",
+            "reason": "Claimed experience with 'redux' which was not in the resume.",
+            "severity": "MEDIUM"
+          }
+        ]
+      }
+    ]
+  }
+}
+Summary of Enforcement & Audit Compliance
+By pairing Layer 12 (Bias Mitigation) and Layer 13 (Hallucination Auditing), TrustInterview AI enforces
+objective screening. Candidates are judged strictly on verified resume capabilities, and AI feedback is
+sanitised of names and demographic markers. This enforces compliant hiring standards in real time.
+
+
+PAGE 5
+TrustInterview AI Hallucination & Bias Architecture Report — Confidential
+
+
+PAGE 6
+Page 1 of 4
+
+
+PAGE 7
+TrustInterview AI Hallucination & Bias Architecture Report — Confidential
+
+
+PAGE 8
+Page 2 of 4
+
+
+PAGE 9
+TrustInterview AI Hallucination & Bias Architecture Report — Confidential
+
+
+PAGE 10
+Page 3 of 4
+
+
+PAGE 11
+TrustInterview AI Hallucination & Bias Architecture Report — Confidential
+
+
+PAGE 12
+Page 4 of 4

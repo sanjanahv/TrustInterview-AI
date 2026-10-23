@@ -1,0 +1,19 @@
+{
+  "policyVersion": "research-0.7",
+  "backendTests": 87,
+  "backendFailures": 0,
+  "backendReport": "backend-tests.xml",
+  "frontendTests": 6,
+  "frontendFailures": 0,
+  "frontendBuild": "compiled_successfully",
+  "liveModelCalls": 0,
+  "sourceHashes": {
+    "TrustInterview-AI/backend/research/core.cjs": "b158c870c4c96046c789caf399f70effcee3d22db6b4d3523ae0d9f088b57238",
+    "TrustInterview-AI/backend/research/model-provider.cjs": "179447158c9e1f6a06e9b1fcfc19c62065e12fcbed307795fec12ca91e854449",
+    "TrustInterview-AI/backend/research/test/recommendation-boundary.test.cjs": "e21c6f0d1afa419e9f72b45352bb54f173765bae23d17e31d606a45456ec2bcc",
+    "TrustInterview-AI/frontend/src/pages/ResearchInterview.js": "56853c961ae19b5c80c4a293d287c30ebea5ed1a1143f3fb639044f9a193b84c",
+    "TrustInterview-AI/frontend/src/App.test.js": "cc9b9f1e07ccf9f3321edeba1a5baf8598ed313fe557ad876705f807f6a35ae3"
+  },
+  "facultySourceUnchanged": true,
+  "facultyPdfUnchanged": true
+}

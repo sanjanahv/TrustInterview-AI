@@ -1,0 +1,19 @@
+{
+  "recordedAt": "2026-10-10T18:40:14.572Z",
+  "node": "v22.20.0",
+  "scope": "Provisioned-identity candidate/reviewer reference workflow with offline provider and keyword rubric",
+  "sources": {
+    "TrustInterview-AI/package.json": "a63dc8f641ec5823a66f2bc45d20b6e0b1dc12f2e06e7bb66c2e13a6630f78c4",
+    "TrustInterview-AI/backend/package.json": "3f864d4c6ea9ecc4203c44f3e85d5f71dbcfa13a80a2c4275e261d94f79e5c88",
+    "TrustInterview-AI/backend/research/core.cjs": "d9c40fc0f2b7b4d4e791987bdab14473d59f379f6c1ff1337a6820e6437cc721",
+    "TrustInterview-AI/backend/research/server.cjs": "0ba5e73d10cf0c7127ac75480e124bedf44ac3d946b83361a1c4e30926641e68",
+    "TrustInterview-AI/backend/research/setup-local.cjs": "98c543cc8b39e98ccf1e125a31c5b0a0d80f2b3082eed0f989c595a081f125b5",
+    "TrustInterview-AI/backend/research/.gitignore": "a7d8bdcefba82a95ebc021d87c629fdea21f13af953bf01e28b7cf8b0eeceb41",
+    "TrustInterview-AI/backend/research/test/controls.test.cjs": "1b1bfe14c6873ffa4636748debb8fe6ba2bbcb708d6dac6ed7377d93cc5ad462",
+    "TrustInterview-AI/frontend/package.json": "723f9f80c71b4799b59b52db8e30023b88b9c2b54d4a52b824da447a69723e40",
+    "TrustInterview-AI/frontend/src/App.js": "b2748ebee46dddd7505d1bb2f6242c7addf8bab42007b6c12a46e7de39ba5f10",
+    "TrustInterview-AI/frontend/src/App.test.js": "6baf2f438214434811c7a4e084d98bad574ea97c2c5dd8b965a2542f22d89081",
+    "TrustInterview-AI/frontend/src/pages/ResearchInterview.js": "ed8cc306af8ed071d09c8cb7402860a2dd50682385264f3e664b144e39270249",
+    "TrustInterview-AI/frontend/src/pages/ResearchInterview.css": "516d6388d5292ab385c5e2329f2e82758d8790385ee5b20f072c54d68ab05387"
+  }
+}

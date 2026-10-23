@@ -1,0 +1,105 @@
+{
+  "pages": 7,
+  "withinEightPageMaximum": true,
+  "withinSevenToEightPageTarget": true,
+  "sourceSha256": "c1e6f09f05e3143db4e3a0c0661714026dd6d116751d9f725ac999323d579026",
+  "pdfSha256": "60bf231dee1ec180bce9e99f3e0c2a6b05f963a1489d1ba00bc133551c7a9fa2",
+  "backendTests": 69,
+  "frontendTests": 5,
+  "toolingTests": 12,
+  "offlineRecords": 48,
+  "liveModelCalls": 0,
+  "undefinedCitationOrReferenceWarnings": false,
+  "overfullBoxWarnings": [],
+  "underfullBoxWarnings": [
+    "Underfull \\hbox (badness 1371) in paragraph at lines 340--343",
+    "Underfull \\hbox (badness 3482) in paragraph at lines 344--349"
+  ],
+  "pageDetails": [
+    {
+      "page": 1,
+      "words": 723,
+      "widthPt": 612.0,
+      "heightPt": 792.0,
+      "fontSizesPt": [
+        7.97,
+        8.97,
+        9.96,
+        10.96,
+        23.91
+      ],
+      "textOutsidePage": []
+    },
+    {
+      "page": 2,
+      "words": 786,
+      "widthPt": 612.0,
+      "heightPt": 792.0,
+      "fontSizesPt": [
+        6.38,
+        7.97,
+        9.96
+      ],
+      "textOutsidePage": []
+    },
+    {
+      "page": 3,
+      "words": 842,
+      "widthPt": 612.0,
+      "heightPt": 792.0,
+      "fontSizesPt": [
+        6.97,
+        7.97,
+        9.96
+      ],
+      "textOutsidePage": []
+    },
+    {
+      "page": 4,
+      "words": 612,
+      "widthPt": 612.0,
+      "heightPt": 792.0,
+      "fontSizesPt": [
+        6.38,
+        7.97,
+        9.96
+      ],
+      "textOutsidePage": []
+    },
+    {
+      "page": 5,
+      "words": 724,
+      "widthPt": 612.0,
+      "heightPt": 792.0,
+      "fontSizesPt": [
+        6.38,
+        7.97,
+        9.96
+      ],
+      "textOutsidePage": []
+    },
+    {
+      "page": 6,
+      "words": 867,
+      "widthPt": 612.0,
+      "heightPt": 792.0,
+      "fontSizesPt": [
+        7.97,
+        9.96
+      ],
+      "textOutsidePage": []
+    },
+    {
+      "page": 7,
+      "words": 682,
+      "widthPt": 612.0,
+      "heightPt": 792.0,
+      "fontSizesPt": [
+        7.97,
+        9.96
+      ],
+      "textOutsidePage": []
+    }
+  ],
+  "visualReview": "passed: all seven rendered pages inspected; no clipping, overlapping text, unreadable tables or diagram defects"
+}

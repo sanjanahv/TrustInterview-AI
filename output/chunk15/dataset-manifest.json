@@ -1,0 +1,16 @@
+{
+  "datasetVersion": "pilot-annotation-v1",
+  "groundingCases": 24,
+  "pairedCases": 24,
+  "pairs": 12,
+  "humanLabelsCompleted": 0,
+  "modelCalls": 0,
+  "purpose": "Synthetic pilot, excluded from final test set",
+  "sha256": {
+    "pilot-cases.json": "91b0d72345a082e6b5da0bc577fe3b5e5bd574c9c3a236a414102ce6959f4e74",
+    "author-manifest.json": "b67a2fde7126772d39b03a9c0c9fdc513c98fe6032394418223eac39f126bfad",
+    "annotator-A-BLANK.json": "99d815197eb41d84631644a5247fdc16a9413a6a0297fd1f026c2bae39fd0f31",
+    "annotator-B-BLANK.json": "f6a6998e2b76b9f0f85f9facb6df61faae0f0d0bb4912d790b04563d9fea93de",
+    "adjudication-BLANK.json": "e6ef0d40346a8110cd02674312c496b1ff14c7fd33b63b6618542fec20c25414"
+  }
+}

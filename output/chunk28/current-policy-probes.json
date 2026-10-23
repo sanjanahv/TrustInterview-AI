@@ -1,0 +1,100 @@
+{
+  "type": "authored_policy_boundary_probes_not_efficacy",
+  "policyVersion": "research-0.8",
+  "liveModelCalls": 0,
+  "independentHumanLabels": 0,
+  "sourceSha256": "4e1b2d94d3106493a7ee047e7d7fb438b135c4ec4c8739789a28075d840f8607",
+  "cases": [
+    {
+      "id": "P1",
+      "boundary": "fabricated student quotation",
+      "expectedDecision": "abstain",
+      "observedDecision": "abstain",
+      "reasons": [
+        "unsupported_observation"
+      ],
+      "extractedClaims": 0,
+      "reviewSignals": 0
+    },
+    {
+      "id": "P2",
+      "boundary": "literal but technically false student statement",
+      "expectedDecision": "allow",
+      "observedDecision": "allow",
+      "reasons": [],
+      "extractedClaims": 0,
+      "reviewSignals": 0
+    },
+    {
+      "id": "P3",
+      "boundary": "draft subject reference quotation",
+      "expectedDecision": "review",
+      "observedDecision": "review",
+      "reasons": [
+        "unreviewed_subject_reference"
+      ],
+      "extractedClaims": 0,
+      "reviewSignals": 0
+    },
+    {
+      "id": "P4",
+      "boundary": "faculty-reviewed subject reference quotation",
+      "expectedDecision": "allow",
+      "observedDecision": "allow",
+      "reasons": [],
+      "extractedClaims": 0,
+      "reviewSignals": 0
+    },
+    {
+      "id": "P5",
+      "boundary": "explicit answer-resume contradiction",
+      "expectedDecision": "review",
+      "observedDecision": "review",
+      "reasons": [
+        "observation_source_contradiction"
+      ],
+      "extractedClaims": 1,
+      "reviewSignals": 0
+    },
+    {
+      "id": "P6",
+      "boundary": "unsupported explicit technology-use claim",
+      "expectedDecision": "abstain",
+      "observedDecision": "abstain",
+      "reasons": [
+        "observation_grounding_undetermined"
+      ],
+      "extractedClaims": 1,
+      "reviewSignals": 0
+    },
+    {
+      "id": "P7",
+      "boundary": "literal disability disclosure",
+      "expectedDecision": "review",
+      "observedDecision": "review",
+      "reasons": [
+        "sensitive_attribute_reference"
+      ],
+      "extractedClaims": 0,
+      "reviewSignals": 1
+    },
+    {
+      "id": "P8",
+      "boundary": "technical race-condition phrase",
+      "expectedDecision": "allow",
+      "observedDecision": "allow",
+      "reasons": [],
+      "extractedClaims": 0,
+      "reviewSignals": 0
+    },
+    {
+      "id": "P9",
+      "boundary": "indirect culture-fit judgment",
+      "expectedDecision": "allow",
+      "observedDecision": "allow",
+      "reasons": [],
+      "extractedClaims": 0,
+      "reviewSignals": 0
+    }
+  ]
+}

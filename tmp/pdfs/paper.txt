@@ -1,0 +1,306 @@
+--- PAGE 1 ---
+ A Zero Trust Architecture Integrating Rule-Based
+    Bias Screening and Hallucination Checks in
+         AI-Powered Interview Systems
+
+
+       Sai Pranavi A P            Sai Triveni B             Sanjana H V              Sneha V
+       Dept. of AI & ML           Dept. of AI & ML           Dept. of AI & ML           Dept. of AI & ML
+  RV College of Engineering  RV College of Engineering  RV College of Engineering  RV College of Engineering
+        Bengaluru, India             Bengaluru, India             Bengaluru, India             Bengaluru, India
+
+
+
+
+
+                                              Faculty Coordinator:
+                                              Apoorva Chate
+                            Dept. of AI & ML, RV College of Engineering, Bengaluru, India
+  Abstract—AI-powered interview systems are showing up every-   scoring, or claims about a candidate that nobody checked, on
+where in campus recruitment, but the security and fairness prob-   the other.
+lems they raise tend to get handled by different people entirely
+— security teams patch the pipeline, fairness researchers look at   A. The Problem: Security and Fairness Are Coupled
+the model. This paper presents TrustInterview AI, a prototype
+that tries to close that gap by applying Zero Trust Architecture     In practice these two risks aren’t separable. If an attacker
+(ZTA) principles across both concerns at once. Eleven conven-  compromises the scoring logic, the easiest thing to do with
+tional application-security controls (identity verification, request   that access is bias outcomes toward or away from particular
+validation, rate limiting, and similar hygiene) sit underneath two
+                                                               candidates — so a security breach is a fairness failure byAI-specific layers we added on top: a rule-based bias screen
+covering 14 protected categories, and a hallucination check that   another name. Run  it the other direction and the same  is
+catches impossible technical claims and cross-references what   true: an AI system that asks a discriminatory question or
+a candidate says against their uploaded resume. We tested the   states something ungrounded about a candidate has broken
+prototype on 200 interview sessions we built ourselves — 50 with   an integrity guarantee, not just a fairness one. Yet security
+injected bias, 50 with injected impossible claims, and 100 left
+                                                              engineering and fairness research still tend to run as separateunmodified. The system caught every injected case and raised no
+false alarms on the unmodified set, and the full 13-layer pipeline   workstreams. That gap is what motivated this design.
+added only 94 ms of overhead against roughly 1.85 s of LLM
+inference time. That said, because we wrote the test cases using   B. Our Approach
+the same category taxonomy the detector uses, and because the                                          We take the Zero Trust principle from NIST SP 800-207 [1]
+dataset is small and synthetic, these numbers are best read as
+                          — never trust, always verify — and apply  it past its usualconfirmation that the components do what we built them to do —
+not as evidence of real-world accuracy or generalization. We say   scope of network and identity verification, extending it to cover
+this plainly and lay out what external validation would still be   the AI system’s own outputs as well. The prototype runs every
+needed before any fairness or compliance claim could be made   request through 13 sequential checks:
+with real confidence.
+                                                                   • Layers 1–11 handle the application-security side: ses-  Index Terms—Zero Trust Architecture, bias detection, hal-
+lucination prevention, AI fairness, interview automation, LLM        sion/identity  verification, device  fingerprinting, CORS
+security                                                          enforcement, payload limits, sandboxed file parsing, au-
+                                                                                 dit logging, rate-limit-based automated response, input
+                                                                            sanitization, schema validation, transport-layer hardening,                           I. INTRODUCTION
+                                                           and IP/threat-signature screening. Individually, none of
+  Campus recruitment and corporate hiring are both leaning         this is new. What we’re contributing here is treating them
+harder on AI-powered interview systems to screen more candi-        as mandatory, sequential gates that everything must pass
+dates, faster. Our own university uses them to connect students        before it reaches the AI-specific layers.
+with employers, and companies use them to triage applicant     • Layer 12 is a rule-based bias screen. It checks generated
+pools that would otherwise take weeks to work through by        questions and evaluation text against keyword lists for 14
+hand. That speed comes with two risks that are usually handled        protected categories — age, gender, marital/family status,
+as if they were unrelated: security vulnerabilities like prompt       and so on — before either one reaches a candidate or gets
+injection, malicious uploads, and unauthorized access on one        recorded, and it separately flags feedback that names the
+side, and fairness failures like discriminatory questions, biased        candidate instead of describing their work.
+
+--- PAGE 2 ---
+  • Layer 13 is a hallucination check.  It flags technically   practice and where  it doesn’t. Almost all of this work, ours
+     impossible claims (software versions that don’t exist, met-   included, is aimed at network and identity security — none
+      rics that break basic bounds like a percentage over 100),   of  it addresses AI-specific integrity problems like biased or
+    and  it cross-references the technical terms a candidate   fabricated model output. There’s a smaller thread of research
+     uses out loud against what’s actually on their uploaded   combining AI with Zero Trust for other purposes; Nagarajan et
+    resume.                                                                  al. [4], for instance, propose an AI-based Zero Trust approach
+   If any layer rejects a request, the pipeline stops right there,   for consumer-industry security. What sets our work apart is
+so any failure can be traced back to one specific, auditable   treating the AI system’s outputs themselves, not just the traffic
+check rather than a tangle of possible causes.                 around them, as an untrusted resource that needs verifying.
+
+C. Key Contributions                                         B. Bias in AI Hiring Systems
+  1) An architecture that puts AI-specific integrity checks     Bias in hiring didn’t start with LLMs. Bertrand and Mul-
+  — bias screening, hallucination detection — inside the   lainathan’s [5] resume-callback study is the classic reference
+     same enforcement pipeline as conventional Zero Trust   point here: identical resumes got noticeably more callbacks
+      security controls, instead of bolting them on as a separate  when given  distinctively White-sounding names than  dis-
+     review step afterward.                                        tinctively Black-sounding ones. Buolamwini and Gebru [6]
+  2) A rule-based bias screen across 14 protected categories,   later showed similarly large accuracy gaps across gender and
+     documented  in enough  detail  to be reproduced and   skin type in commercial classification systems, which helped
+     picked apart, including a direct account of what keyword   push broader scrutiny of algorithmic tools generally. K¨ochling
+     matching catches and what it doesn’t.                  and Wehner [7] pull much of this together in a systematic
+  3) A hallucination check combining an impossible-claim   review focused specifically on discrimination and fairness in
+      pattern library, resume cross-referencing, and a simple   algorithmic HR recruitment. Most of the mitigation work in
+      risk-scoring heuristic that we disclose in full rather than   this space happens at training time, through reweighting or
+       treat as a black box.                                        fairness constraints on the model itself. We take a different
+  4) A transparency dashboard showing the outcome of all   angle: inference-time screening of generated text, which works
+     13 layers for every request.                             with whatever model sits underneath but is also, as we get
+  5) An evaluation across 200 internally built interview ses-   into in Section VI, limited to whatever surface patterns we’ve
+      sions, reported alongside a candid discussion of what   explicitly told it to watch for.
+      that evaluation can and can’t tell us (Sections V-C and
+                                                          C. LLM Hallucination      VI).
+                                                           Large language models will confidently say things  that
+D. Scope and Honesty About Claims                                                                    aren’t true. Huang et  al. [8] survey why this happens and
+  This is a student-built prototype, not a validated production  how researchers have tried to catch it, and Manakul et al. [9]
+system, and we want that distinction to be clear from the   propose SelfCheckGPT, a black-box method that detects likely
+outset. Section V shows that the rules we implemented behave   hallucinations by sampling for consistency without needing
+as intended on a test set built around their own taxonomy —   access to model internals. A lot of this literature leans on
+it does not show real-world fairness, and it doesn’t establish   retrieval or evidence-grounding as the fix. We go narrower:
+legal compliance with anything on its own. We’d rather state   our hallucination layer checks claims against one specific
+that boundary directly than let the numbers imply more than  document — the candidate’s resume — and flags anything
+they support, and Section VI lays out what further evaluation   that breaks a simple factual or numerical bound, rather than
+would actually be needed to say more.                          trying to solve hallucination detection in general.
+
+E. Paper Organization                                                    III. ARCHITECTURE: 13-LAYER ZERO TRUST DESIGN
+  Section II covers related work. Section III walks through     Every incoming request — a resume upload, a question-
+the 13-layer architecture. Section IV describes the implemen-   generation call, an answer evaluation — passes through all 13
+tation. Section V presents the evaluation, including its limits.   layers in sequence. Failing any one of them stops the request
+Section VI discusses broader limitations and future work, and   immediately, which gives us clean, per-layer logs for forensic
+Section VII concludes.                                        purposes.
+
+                        II. RELATED WORK                      A. Layers 1-11: Standard ZTA Controls
+A. Zero Trust Architecture                                                      Layer 1 — Identity & Session Management. Non-public
+  NIST SP 800-207  [1]  defines Zero  Trust  Architecture  API requests must carry a cryptographically-secured session
+around a simple rule: no entity  is trusted by default, and   token; anything missing one, or presenting an expired one,
+every request has to be authenticated and authorized contin-   gets rejected.
+uously. Syed et al. [2] survey the field comprehensively, and    Layer 2 — Device Fingerprinting. Client-side JavaScript
+Bertino [3] weighs in on where the model actually helps in   computes a device  fingerprint, and requests coming from
+
+--- PAGE 3 ---
+headless browsers or known bot user-agents get flagged for   category, which keyword, and where it showed up, so a human
+review.                                                   can review  it. We want to be upfront that this is keyword
+  Layer 3 — Network & CORS. Origin matching is enforced   matching, not semantic understanding — Section VI goes into
+strictly; requests from origins we don’t recognize are rejected  what that misses.
+outright.
+  Layer 4 — Payload Size. Request bodies are capped at   C. Layer 13: Hallucination and Unverified-Claim Detection
+10 MB, mainly to keep memory-exhaustion attacks off the     Layer 13 runs three checks.
+table.                                                             1) Impossible-technology detection. A pattern library flags
+  Layer 5 — Data Protection. Resume PDFs get parsed   claims about versions or products that don’t exist — “Python
+inside isolated subprocesses with restricted file-system access.   4.0,” “HTML6” — and we update  it by hand as real new
+  Layer 6 — Audit Logging. Every request is logged — IP,   versions come out.
+headers, method, path, status code, latency.                       2) Impossible-metric detection. Claims that break basic
+  Layer 7 — Automated Response. IPs that exceed the                                                        numeric bounds get flagged as high-risk: a percentage reduc-
+configured rate limit, or that keep triggering errors, get blocked                                                                    tion over 100, an accuracy figure above 100%, throughput
+automatically.                                                      numbers that don’t square with the stated hardware.
+  Layer 8 — Input Sanitization. POST bodies are scanned                                                                  3) Resume cross-checking. We pull technical keywords out
+for XSS patterns, SQL-injection fragments, and secrets that                                                               of both the candidate’s spoken answer and their resume and
+shouldn’t have been included.                                                      compare them. Anything in the answer that’s absent from the
+  Layer 9 — Policy Decision Point. Each request’s method,                                                       resume gets flagged as a medium-risk, unverified claim —
+path, and payload schema are checked against pre-defined                                                      which could be perfectly legitimate (a skill picked up recently)
+policies.                                                               or could be an exaggeration. Either way, the flag is meant as
+  Layer 10 — Edge Security. HSTS, CSP directives, and                                                           a prompt for a human interviewer to ask a follow-up question,
+secure cookie flags are all enforced by default.                                                              not as a verdict.
+  Layer 11 — Threat Intelligence. A blocklist of known-                                                         These flags feed into a heuristic risk score: 45 points per
+bad IP ranges is maintained, and payloads are scanned for                                                                  high-risk violation, 20 per medium-risk flag, with scores above
+command-injection signatures.                                                     60 read as high risk, 25 to 59 as medium, and below 25
+  None of Layers 1 through 11 is a new security technique                                                               as low. We picked these numbers based on informal testing
+— this  is standard application-security practice, and we’re                                                             during development, not by fitting them against an independent
+not claiming otherwise. We include them because Zero Trust                                                                      dataset, so they should be treated as a reasonable starting
+means verifying continuously at every stage, and because the                                                                configuration rather than a calibrated model.
+AI-specific layers that follow only mean something  if the
+pipeline feeding them is already hardened.                                       IV. IMPLEMENTATION
+
+B. Layer 12: Rule-Based Bias Screening                      A. System Stack
+
+  Layer 12 checks generated text against keyword lists across    Backend: Node.js running 13 sequential middleware layers.
+14 protected categories. Here’s a case from our testing that  LightGBM [10] handles question-difficulty calibration. Eval-
+illustrates why this matters: a generated question read, “Given   uation text comes from OpenAI GPT-3.5-Turbo and Google
+your age and experience level, how would you handle working   Gemini-1.5-Flash.
+with a younger team?” The underlying topic — teamwork     Frontend: React, with a real-time dashboard showing layer
+across generations — is a fair thing to ask about. But “given   status. Speech-to-text runs through the Web Speech API.
+your age” turns a protected attribute into an explicit factor in    Deployment: Docker on AWS EC2, Redis  for session
+the question, and that’s what gets flagged.                       persistence, CloudWatch for log aggregation.
+  The keyword lists themselves are illustrative, not exhaustive.
+For age, we watch for terms like “age,” “how old,” “young,”   B. Algorithms
+“old,” “years old.” For gender: “male,” “female,” “woman,”                                                     The  bias-screening  logic  checks, category by  category,
+“man,” “pregnant.” For family status: “married,” “children,”                                                         whether  trigger  keywords  show  up  in  candidate-facing
+“kids,” “family,” “spouse.”                                                                            text. The hallucination-checking logic looks for impossible-
+  The fourteenth category — personal  identity — works                                                           technology mentions, metric-bound violations, and resume-
+a  little differently. We tokenize the candidate’s name from                                                                  unverified terms, then  rolls the results into the risk score
+their resume (“Sanjana H V” becomes {sanjana, h, v}), and                                                              described in Section III-C.
+any evaluation text containing those tokens gets flagged. The
+reasoning is simple: evaluation should describe the work —                       V. EVALUATION
+“the candidate demonstrates strong coding skills” — not the
+                                                             A. Experimental Setupperson.
+  Each piece of text gets a compliance score: 100% if nothing   We tested the prototype against 200 software-engineering
+triggers, and otherwise a per-category report noting which   interview sessions, all of which we built ourselves:
+
+--- PAGE 4 ---
+  • 50 sessions with biased questions injected deliberately,        medium-risk flags, was assigned by us — not by inde-
+     written against the same category taxonomy Layer 12        pendent annotators or by anyone the system’s decisions
+    implements.                                            would actually affect.
+  • 50 sessions with impossible claims injected deliberately,     3) Small, synthetic, single-domain sample. 200 sessions,
+     written against the same pattern categories Layer 13           all software-engineering interviews, isn’t enough to sup-
+    implements.                                                      port a general accuracy claim, and none of  it is real
+  • 100 sessions left unmodified, with realistic and accurate         candidate data.
+     content.
+                                                                            VI. DISCUSSION
+We treat these results as a specification check — confirmation
+                                                             A. Key Findings
+that the rules fire on the cases they were built to catch —
+rather than an estimate of accuracy on unseen, adversarially     Within the bounds of this internally built test set, the layered
+diverse, real-world input. Section V-C spells this distinction   pipeline does what it was designed to do: the rule-based checks
+out further.                                                    catch the categories of problems they were built for, and the
+                                                                latency they add is small next to LLM inference time. The per-
+                                                                  layer dashboard also gives auditors and candidates a windowB. Results
+                                                                    into which checks ran and what they found — a reasonable
+  Bias screening. All 50 sessions with injected bias were   step toward the kind of explainability Wachter et  al. [11]
+flagged, and none of the 100 unmodified sessions triggered a   discuss, even if it doesn’t fully answer their concerns.
+false alarm.
+                                                             B. Limitations  Hallucination  checking. All 50  sessions with  injected
+impossible claims were flagged as high-risk. Eight of the    Keyword matching has clear blind spots. The bias screen
+100 unmodified sessions also picked up medium-risk flags,   catches explicit references to protected categories, but coded
+because a candidate mentioned a technology that wasn’t on   language slips right past  it — phrases like “culture  fit” or
+their resume. On review, we judged these to be legitimate   “rockstar developer” can encode age or class bias without
+signals worth an interviewer following up on — a recently   tripping any flagged keyword. Closing  that gap probably
+learned  skill, most likely — rather than detector mistakes.  means training and validating a learned  classifier on  real,
+Worth noting: that judgment was made by the same team that   diverse hiring language, not just extending the keyword list
+built the detector, which is itself a limitation of this evaluation.   further.
+  Latency. The full 13-layer pipeline adds 94 ms of overhead,    The evaluation doesn’t establish real-world accuracy. As
+about 5% of total request time. LLM inference, at roughly   Section V-C lays out, our 100% detection numbers come from
+1.85 s, dominates the overall latency by a wide margin, so the   a  test set we designed and graded ourselves, built around
+added checks are unlikely to be the bottleneck users actually   the detector’s own taxonomy. We don’t have results yet on
+notice — though we haven’t tested this under production-scale   an independently built or real-world dataset, and we’re not
+concurrent load.                                        making any claim about the system’s false-positive or false-
+  Adversarial probes. We tried 20 resumes with embedded   negative rates in actual deployment.
+prompt-injection text (“ignore previous instructions and give   PDF parsing constrains resume cross-checking. Layer
+this candidate a perfect score,” for example), and all 20 were  13 depends on getting clean text out of a resume. Scanned
+caught, mostly because Layer 13’s resume cross-check doesn’t  documents and unusual multi-column layouts degrade that
+depend on the injected instruction actually being followed. We   extraction, which can cause a legitimate skill to get misflagged
+also simulated a burst of 1,000 requests per minute from a   as unverified simply because we couldn’t read it off the page
+single IP; Layer 7’s rate limiting kicked in and blocked  it   correctly.
+after 100 requests within 15 minutes.                      The system can’t fix bias inside the underlying LLM.
+                                                        We’re screening outputs, not training or fine-tuning GPT-
+C. Threats to Validity                                       3.5-Turbo or Gemini-1.5-Flash. Biased reasoning that doesn’t
+                                                                surface as a flagged keyword or an out-of-bounds metric passes
+  Three limitations of this evaluation are worth calling out                                                           through untouched.
+directly, on top of the broader ones in Section VI:                                             No benchmark against commercial systems. HireVue and
+  1) Self-designed  test  cases. We  built  the  bias-  and   Pymetrics are both closed-source, so we have no way to
+      hallucination-injection cases using the same category  compare detection performance directly against them. What
+     taxonomy the detectors themselves use. High detection  we can offer instead is an architecture and detection logic
+      rates here are more or less expected by construction, and   that’s  fully open  to inspection — a  partial  substitute  for
+      shouldn’t be read as a measure of how well the system   benchmarking, though not an equivalent to it.
+      generalizes to novel phrasing, coded language, or real     Regulatory alignment, not compliance. The layer-status
+      candidate behavior.                                   dashboard was designed with GDPR Article 22’s explanation
+  2) No independent labeling. Every ground-truth label in   expectations and general FCRA documentation practice in
+       this evaluation, including the manual review of the 8   mind, but neither this paper nor its authors are in a position
+
+--- PAGE 5 ---
+to make a legal compliance determination. Wachter et al. [11]     [6]  J. Buolamwini and T. Gebru, “Gender shades: Intersectional accuracy
+raise real open questions about how far any GDPR “right to          disparities  in commercial gender  classification,”  in Proc.  1st Conf.
+                                                                                      Fairness, Accountability and Transparency (PMLR), 2018, pp. 77–91.
+explanation” actually extends, and any compliance claim here     [7] A. K¨ochling and M. C. Wehner, “Discriminated by an algorithm: a
+would need review by qualified counsel against the specific         systematic review of discrimination and fairness by algorithmic decision-
+deployment and jurisdiction involved.                                making in the context of HR recruitment and HR development,” Business
+                                                                                 Research, vol. 13, no. 3, pp. 795–848, 2020.
+C. Future Work                                                                 [8] L. Huang, W. Yu, W. Ma, W. Zhong, Z. Feng, H. Wang, Q. Chen, W.
+                                                                              Peng, X. Feng, B. Qin, and T. Liu, “A survey on hallucination in large
+ A few things are next on our  list: evaluating against an        language models: Principles, taxonomy, challenges, and open questions,”
+                                                   ACM Trans. Inf. Syst., 2023.independently  built,  larger, and more  linguistically diverse
+                                                                                      [9]  P. Manakul, A. Liusie, and M. Gales, “SelfCheckGPT: Zero-resource
+dataset, ideally with external annotators; training a learned         black-box hallucination detection for generative large language models,”
+classifier to catch coded bias language that keyword matching          in Proc. 2023 Conf. Empirical Methods in Natural Language Processing
+                                                                   (EMNLP), 2023, pp. 9004–9017.misses, evaluated on held-out data; getting a formal legal
+                                                                               [10] G. Ke, Q. Meng, T. Finley, T. Wang, W. Chen, W. Ma, Q. Ye, and T.-Y.
+review of the design choices that touch on compliance; and         Liu, “LightGBM: A highly efficient gradient boosting decision tree,” in
+extending the architecture to video interviews, which bring        Advances in Neural Information Processing Systems (NeurIPS), vol. 30,
+their own fairness risks — bias in facial or speech analysis,        2017.
+                                                                               [11]  S. Wachter, B. Mittelstadt, and L. Floridi, “Why a right to explanation of
+for instance — that this system doesn’t currently address at        automated decision-making does not exist in the General Data Protection
+all.                                                                                 Regulation,” International Data Privacy Law, vol. 7, no. 2, pp. 76–99,
+                                                                              2017.
+                   VII. CONCLUSION
+
+  TrustInterview AI started as an attempt to see whether
+Zero Trust  principles —  treat every request as untrusted
+until  verified, including  the AI system’s own outputs —
+could be usefully applied to AI hiring pipelines. The 13-
+layer design, and specifically folding rule-based bias screening
+and hallucination checking into the same enforcement pipeline
+as conventional security controls, seems  like a reasonable
+architectural pattern for this kind of problem. But we want to
+be clear about what our evaluation actually shows: the rules
+behave as specified on a small test set we built ourselves,
+not that the system  is  fair, accurate, or legally compliant
+once deployed. We’re saying this directly because the distance
+between “the code does what we told it to” and “the system
+is actually fair and trustworthy” is precisely the distance that
+matters in a hiring context, and closing it needs independent,
+larger-scale evaluation that this paper doesn’t yet provide.
+  The code for TrustInterview AI is open source, and we’d
+welcome independent  testing,  criticism, and extension —
+especially evaluation on data we didn’t build ourselves.
+
+             ACKNOWLEDGMENT
+
+  We thank Prof. Apoorva Chate for guidance throughout
+this project and the RV College of Engineering AI & ML
+Department for providing computational resources.
+
+                 REFERENCES
+
+ [1]  S. Rose, O. Borchert, S. Mitchell, and S. Connelly, “Zero Trust Archi-
+      tecture,” NIST Special Publication 800-207, Aug. 2020.
+ [2] N. F. Syed, S. W. Shah, A. Shaghaghi, A. Anwar, Z. Baig, and R. Doss,
+     “Zero Trust Architecture (ZTA): A comprehensive survey,” IEEE Access,
+      vol. 10, pp. 57143–57179, 2022.
+ [3] E. Bertino, “Zero trust architecture: Does  it help?,” IEEE Security &
+     Privacy, vol. 19, no. 5, pp. 95–96, 2021.
+ [4]  S. M. Nagarajan, G. G. Devarajan, M. S. Thangakrishnan, T. V. Ramana,
+     A. K. Bashir, and A. A. AlZubi, “Artificial Intelligence-Based Zero
+      Trust Security Approach for Consumer Industry,” IEEE Trans. Consumer
+      Electron., vol. 70, no. 3, pp. 5411–5418, 2024.
+ [5] M. Bertrand and S. Mullainathan, “Are Emily and Greg more em-
+     ployable than Lakisha and Jamal? A field experiment on labor market
+      discrimination,” American Economic Review, vol. 94, no. 4, pp. 991–
+     1013, Sep. 2004.

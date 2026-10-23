@@ -1,0 +1,5 @@
+Final production build: exit code 0; compiled successfully.
+Main JavaScript bundle: main.034b51bf.js, 64.49 kB gzip.
+Main CSS bundle: main.1e85a6ff.css, 4.93 kB gzip.
+Build target: existing React frontend; default controlled reference workflow.
+No deployment performed. Browser layout was not visually inspected.

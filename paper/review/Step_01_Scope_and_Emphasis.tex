@@ -1,0 +1,14 @@
+% REVIEW FRAGMENT ONLY: not included in the faculty source, not a final paper.
+% Proposed replacement title:
+% Evidence Grounding and Bias-Risk Controls for College Interview Bots with a Zero Trust Foundation
+
+\subsection{College Interview Scope}
+This work concerns a college interview bot supporting student interview practice and authorized assessment review. Campus placement support may include resume-based questions, but the research does not assume that the prototype makes employer selection decisions or awards academic grades. The controlled reference workflow currently uses a fixed question and a keyword score for enforcement tests; it is not a validated measure of student competence.
+
+\subsection{Hallucination and Bias Boundaries}
+The central output risks are unsupported attribution of a claim to a student, technically incorrect feedback, and an evaluative judgment that does not follow from the answer and declared rubric. These require different evidence: the student's answer for attribution, reviewed subject material for technical facts, and a rubric with answer evidence for assessment judgments. A discrepancy between an answer and a resume is recorded separately; it does not by itself establish hallucination or dishonesty. The implemented quotation checks and bounded technology-use comparison address only part of this problem. Optional subject-reference binding establishes source traceability, not semantic correctness or faculty approval.
+
+Bias evaluation asks whether comparable technical answers receive different feedback, release decisions or review burdens under variations declared irrelevant to the task. Mentioning a demographic attribute is not itself discriminatory treatment. Name, pronoun or presentation variants must preserve answer meaning, and communication quality may be relevant when explicitly included in the assessment construct. Current lexical signals support inspection; their presence or absence is not a fairness verdict. Independent labels and matched output comparisons remain necessary.
+
+\subsection{Concise Zero Trust Foundation}
+Zero Trust supplies the access foundation: server-side identity, role, institution/resource scope, ownership, session validity and valid assessment transitions govern protected operations. Output validation then governs release, review or abstention. The historical prototype organizes controls under thirteen project-specific layer labels covering identity, device, network, workload, data handling, audit, automated response, governance, policy, edge protection, threat intelligence, bias risk and grounding. These labels are not a NIST-prescribed architecture, and their presence in legacy code does not establish enforcement in the controlled research service. A compact implementation mapping will distinguish verified controls from legacy or unmeasured capabilities; the main methods discussion will focus on hallucination grounding and bias-risk evaluation.

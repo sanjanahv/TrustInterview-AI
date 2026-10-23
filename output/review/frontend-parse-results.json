@@ -1,0 +1,130 @@
+[
+  {
+    "file": "INTERVIEW-BOT\\frontend\\src\\App.js",
+    "parsed": true
+  },
+  {
+    "file": "INTERVIEW-BOT\\frontend\\src\\App.test.js",
+    "parsed": true
+  },
+  {
+    "file": "INTERVIEW-BOT\\frontend\\src\\components\\CameraFeed.js",
+    "parsed": true
+  },
+  {
+    "file": "INTERVIEW-BOT\\frontend\\src\\components\\QuestionBox.js",
+    "parsed": true
+  },
+  {
+    "file": "INTERVIEW-BOT\\frontend\\src\\components\\TimerBar.js",
+    "parsed": true
+  },
+  {
+    "file": "INTERVIEW-BOT\\frontend\\src\\components\\ZTAStatusDashboard.js",
+    "parsed": true
+  },
+  {
+    "file": "INTERVIEW-BOT\\frontend\\src\\index.js",
+    "parsed": true
+  },
+  {
+    "file": "INTERVIEW-BOT\\frontend\\src\\pages\\Interview.js",
+    "parsed": true
+  },
+  {
+    "file": "INTERVIEW-BOT\\frontend\\src\\pages\\Results.js",
+    "parsed": true
+  },
+  {
+    "file": "INTERVIEW-BOT\\frontend\\src\\pages\\Upload.js",
+    "parsed": true
+  },
+  {
+    "file": "INTERVIEW-BOT\\frontend\\src\\reportWebVitals.js",
+    "parsed": true
+  },
+  {
+    "file": "INTERVIEW-BOT\\frontend\\src\\setupTests.js",
+    "parsed": true
+  },
+  {
+    "file": "TrustInterview-AI\\frontend\\src\\App.js",
+    "parsed": true
+  },
+  {
+    "file": "TrustInterview-AI\\frontend\\src\\App.test.js",
+    "parsed": true
+  },
+  {
+    "file": "TrustInterview-AI\\frontend\\src\\components\\CameraFeed.js",
+    "parsed": true
+  },
+  {
+    "file": "TrustInterview-AI\\frontend\\src\\components\\ErrorBoundary.js",
+    "parsed": true
+  },
+  {
+    "file": "TrustInterview-AI\\frontend\\src\\components\\GoogleSignIn.js",
+    "parsed": true
+  },
+  {
+    "file": "TrustInterview-AI\\frontend\\src\\components\\QuestionBox.js",
+    "parsed": true
+  },
+  {
+    "file": "TrustInterview-AI\\frontend\\src\\components\\SkeletonLoader.js",
+    "parsed": true
+  },
+  {
+    "file": "TrustInterview-AI\\frontend\\src\\components\\TimerBar.js",
+    "parsed": true
+  },
+  {
+    "file": "TrustInterview-AI\\frontend\\src\\components\\ZTABadge.js",
+    "parsed": true
+  },
+  {
+    "file": "TrustInterview-AI\\frontend\\src\\components\\ZTAStatusDashboard.js",
+    "parsed": true
+  },
+  {
+    "file": "TrustInterview-AI\\frontend\\src\\index.js",
+    "parsed": true
+  },
+  {
+    "file": "TrustInterview-AI\\frontend\\src\\pages\\AuthCallback.js",
+    "parsed": true
+  },
+  {
+    "file": "TrustInterview-AI\\frontend\\src\\pages\\GoogleMockAuth.js",
+    "parsed": true
+  },
+  {
+    "file": "TrustInterview-AI\\frontend\\src\\pages\\History.js",
+    "parsed": true
+  },
+  {
+    "file": "TrustInterview-AI\\frontend\\src\\pages\\Interview.js",
+    "parsed": true
+  },
+  {
+    "file": "TrustInterview-AI\\frontend\\src\\pages\\Login.js",
+    "parsed": true
+  },
+  {
+    "file": "TrustInterview-AI\\frontend\\src\\pages\\Results.js",
+    "parsed": true
+  },
+  {
+    "file": "TrustInterview-AI\\frontend\\src\\pages\\Upload.js",
+    "parsed": true
+  },
+  {
+    "file": "TrustInterview-AI\\frontend\\src\\reportWebVitals.js",
+    "parsed": true
+  },
+  {
+    "file": "TrustInterview-AI\\frontend\\src\\setupTests.js",
+    "parsed": true
+  }
+]

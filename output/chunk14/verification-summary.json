@@ -1,0 +1,36 @@
+{
+  "recordedAt": "2026-10-10T22:00:44.184Z",
+  "node": "v22.20.0",
+  "googleAuthLibrary": "11.2.0",
+  "exitCode": 0,
+  "tests": 58,
+  "passed": 58,
+  "failed": 0,
+  "liveGoogleLogins": 0,
+  "liveModelCalls": 0,
+  "providerTestMethod": "Local RSA assertions verified by installed SDK; code exchange and key retrieval fixtures",
+  "sources": {
+    "claim-grounding.cjs": "e57fb4a6d9479232f9b243194d68ac050186bbf353a16128c5fb8e5f121d6879",
+    "core.cjs": "02475ddff5d1e639daf1f2ff69894e9d0efa008fa4a96f3008c34259faaf9293",
+    "server.cjs": "1012b811325f0c70836a6a2430bb5a5cad4a81b9f5138a7e37919f538f5c8c83",
+    "assessment-store.cjs": "1afb2fac46270ef6d10ee0f003c75f7cc8b1860b30835c7a630c990778272f16",
+    "google-identity.cjs": "bada5911937da8401b1fa9eb0a21e4bb3e12df302449cfdc8930503b32ea24b9",
+    "package.json": "21bcc132a378a766207cad5c6560fe4f3d8f4cd25de419d4f5c7db438c2a0784",
+    "package-lock.json": "4989350402d0a515651a2e4f4007fb257834c693c1b1359eebc690a35b6d3f90",
+    "google-config.example.json": "16ed0f24032613bb86fff9476239318cc13d354a0ff38950531045ca8794961e",
+    "README.md": "3c133224dd288d69d475e1c4dfba3b897d4c846436903cc438f4b643f4de1523",
+    "test/controls.test.cjs": "4dab5ab73370ac64ef6ddb32cf1d9b75d297a61017f408747cd1ecb9f57eb44b",
+    "test/persistence.test.cjs": "452d3d8df01f1b28b685ee4ce7eccb2b19e4a6f50a992d71671285f6c9488931",
+    "test/http-persistence.test.cjs": "b6ba9c1607bc5771395e08aa3598477f4a301842b7ede9e3f1d78e307c78ce32",
+    "test/google-identity.test.cjs": "b285a6aab12548262ae23ee6bfaf7ee753d9d99de22f7225d7bc1875330a7f21",
+    "test/resume.test.cjs": "853ebfb3fe54ce75bed288cb8302e6dbe65dead4b16e480ffb2660677190505b",
+    "test/claim-grounding.test.cjs": "45e3b91082ea1d25a4008b25aea2343d607913b3c0612acdbd2b67e44aaba4ed",
+    "test/fixtures/crash.cjs": "51de96e372c70f78bfc3499d40a9a3df5ae67f2f89e8837e0cc7d0a41aa92fc9"
+  },
+  "frontendSources": {
+    "App.js": "b2748ebee46dddd7505d1bb2f6242c7addf8bab42007b6c12a46e7de39ba5f10",
+    "App.test.js": "7ee8ee98dbe39c054e5472a0d65a5cc71e12093bffba190993b466d97153664e",
+    "pages/ResearchInterview.js": "ae85211e6b20e9792c94269f510c814741fe3d4cad67d6c9c90c4fbb6a026713",
+    "pages/ResearchInterview.css": "516d6388d5292ab385c5e2329f2e82758d8790385ee5b20f072c54d68ab05387"
+  }
+}

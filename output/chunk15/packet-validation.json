@@ -1,0 +1,15 @@
+{
+  "validation": "passed",
+  "uniqueCases": 48,
+  "groundingCases": 24,
+  "pairs": 12,
+  "humanLabelsCompleted": 0,
+  "efficacyMetricsComputed": false,
+  "checks": [
+    "sha256",
+    "unique_identifiers",
+    "blind_blank_packets",
+    "distinct_orders",
+    "pair_content_preservation"
+  ]
+}

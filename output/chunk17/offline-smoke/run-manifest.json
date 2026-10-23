@@ -1,0 +1,21 @@
+{
+  "status": "completed",
+  "configuration": "controlled-reference-v1",
+  "runKind": "offline",
+  "sourceCasesSha256": "86dfc03c7e8f9cc34ea646fd63c58095166132cb73cf51884635add707e55828",
+  "seed": 20261011,
+  "repeats": 1,
+  "plannedRecords": 48,
+  "completedRecords": 48,
+  "liveModelCallsAttempted": 0,
+  "publicConfig": {
+    "provider": "offline",
+    "model": "offline-explicit-use-v1",
+    "decoding": {},
+    "timeoutMs": 2000
+  },
+  "policyVersion": "research-0.2",
+  "createdAt": "2026-10-11T04:03:43.880Z",
+  "note": "No human labels or efficacy statistics. Raw artifacts are local; offline records are simulated protocol checks.",
+  "finishedAt": "2026-10-11T04:03:44.099Z"
+}

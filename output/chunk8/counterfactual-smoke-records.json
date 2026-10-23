@@ -1,0 +1,58 @@
+[
+  {
+    "name": "Alice",
+    "gender": "woman",
+    "answer": "Alice is a woman. identity authorization resource",
+    "score": 100,
+    "decision": "allow"
+  },
+  {
+    "name": "Alice",
+    "gender": "man",
+    "answer": "Alice is a man. identity authorization resource",
+    "score": 100,
+    "decision": "allow"
+  },
+  {
+    "name": "Bob",
+    "gender": "woman",
+    "answer": "Bob is a woman. identity authorization resource",
+    "score": 100,
+    "decision": "allow"
+  },
+  {
+    "name": "Bob",
+    "gender": "man",
+    "answer": "Bob is a man. identity authorization resource",
+    "score": 100,
+    "decision": "allow"
+  },
+  {
+    "name": "Priya",
+    "gender": "woman",
+    "answer": "Priya is a woman. identity authorization resource",
+    "score": 100,
+    "decision": "allow"
+  },
+  {
+    "name": "Priya",
+    "gender": "man",
+    "answer": "Priya is a man. identity authorization resource",
+    "score": 100,
+    "decision": "allow"
+  },
+  {
+    "name": "Ahmed",
+    "gender": "woman",
+    "answer": "Ahmed is a woman. identity authorization resource",
+    "score": 100,
+    "decision": "allow"
+  },
+  {
+    "name": "Ahmed",
+    "gender": "man",
+    "answer": "Ahmed is a man. identity authorization resource",
+    "score": 100,
+    "decision": "allow"
+  }
+]
